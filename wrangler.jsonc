@@ -1,0 +1,30 @@
+{
+  // Cloudflare Workers config. This file is committed, so the hosting setup is
+  // reproducible from git alone -- nothing important lives only in the dashboard.
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // IMPORTANT: this must match the Worker name in the Cloudflare dashboard,
+  // or Workers Builds will fail. It also decides the URL:
+  //   https://olya-parashuk-portfolio.<your-subdomain>.workers.dev
+  "name": "olya-parashuk-portfolio",
+
+  // Pins the Workers runtime API behaviour to this date. Bump deliberately, not casually.
+  "compatibility_date": "2026-09-03",
+
+  // No "main" field: this is a static-assets-only Worker, so there is no script to run.
+  // Add "main" later only if you want a real endpoint (e.g. a contact-form handler).
+  "assets": {
+    // Astro's build output.
+    "directory": "./dist/",
+
+    // Serve dist/404.html for unmatched paths, instead of a bare Cloudflare error.
+    "not_found_handling": "404-page",
+
+    // Astro builds /about/index.html; this serves it at /about/ and redirects /about.
+    "html_handling": "auto-trailing-slash"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

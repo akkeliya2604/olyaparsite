@@ -1,0 +1,77 @@
+---
+const links = [
+  { href: "/work/", label: "Work" },
+  { href: "/about/", label: "About" },
+];
+
+// Normalise to a trailing slash so /work and /work/ both mark the tab active.
+const here = Astro.url.pathname.replace(/\/?$/, "/");
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand" aria-label="Olya Parashuk, home">Olya&nbsp;Parashuk</a>
+
+    <nav aria-label="Main">
+      <ul>
+        {links.map(({ href, label }) => (
+          <li>
+            <a href={href} aria-current={here.startsWith(href) ? "page" : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 4rem;
+  }
+
+  .brand {
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  nav ul {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--size-sm);
+  }
+
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--color-text);
+  }
+
+  /* Underline the current page so it is not signalled by colour alone. */
+  nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+  }
+</style>

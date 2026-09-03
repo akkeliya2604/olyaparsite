@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const projects = (await getCollection("work", ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+<BaseLayout title="Olya Parashuk — Product & UX Designer" bareTitle>
+  <section class="wrap hero">
+    <h1>Product designer working on research-led interfaces.</h1>
+    <p class="lede">
+      I design software that people rely on to get real work done — with an
+      emphasis on research, interaction detail, and design systems that survive
+      contact with engineering.
+    </p>
+    <p><a href="/work/">See selected work &rarr;</a></p>
+  </section>
+
+  <section class="wrap">
+    <h2 class="section-title">Selected work</h2>
+    <div class="grid">
+      {projects.map((p) => (
+        <ProjectCard
+          href={`/work/${p.id}/`}
+          title={p.data.title}
+          summary={p.data.summary}
+          role={p.data.role}
+          year={p.data.year}
+          tags={p.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-24) var(--space-16);
+    max-width: var(--prose-width);
+    margin-inline: auto;
+  }
+
+  .lede {
+    margin-block: var(--space-6);
+    font-size: var(--size-lg);
+    color: var(--color-text-muted);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-8);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  }
+</style>

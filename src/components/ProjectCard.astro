@@ -1,0 +1,100 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  role: string;
+  year: number;
+  tags?: string[];
+}
+
+const { href, title, summary, role, year, tags = [] } = Astro.props;
+---
+
+<article class="card">
+  <h3>
+    <!-- The whole card is clickable via ::after, but the <a> stays wrapped
+         around the title so screen readers announce a sensible link name. -->
+    <a href={href}>{title}</a>
+  </h3>
+
+  <p class="meta">{role} &middot; {year}</p>
+  <p class="summary">{summary}</p>
+
+  {tags.length > 0 && (
+    <ul class="tags" aria-label="Focus areas">
+      {tags.map((t) => <li>{t}</li>)}
+    </ul>
+  )}
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  /* Card-wide hit area, without nesting extra links inside the heading. */
+  .card h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .card h3 {
+    font-size: var(--size-lg);
+  }
+
+  .card h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .card:hover h3 a {
+    color: var(--color-accent);
+  }
+
+  .meta {
+    font-size: var(--size-xs);
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .summary {
+    color: var(--color-text-muted);
+    font-size: var(--size-sm);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+  }
+
+  .tags li {
+    font-size: var(--size-xs);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 2px var(--space-2);
+  }
+</style>

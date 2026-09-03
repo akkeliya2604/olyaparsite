@@ -1,0 +1,13 @@
+# Normalise line endings. The Cloudflare build runs on Linux, so keep LF in the
+# repo regardless of what Windows checks out locally.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
