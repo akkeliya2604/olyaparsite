@@ -6,17 +6,18 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
-  /** Set true on the homepage so the tab reads "Olya Parashuk" not "Home | Olya Parashuk". */
+  /** Set true on the homepage so the tab reads "Joe Goodreau" not "Home | Joe Goodreau". */
   bareTitle?: boolean;
 }
 
 const {
   title,
-  description = "Product and UX designer. Case studies in research, interaction design and design systems.",
+  // TODO(figma): real description comes from the design's meta/hero copy.
+  description = "Placeholder description — replace from the Figma design.",
   bareTitle = false,
 } = Astro.props;
 
-const siteName = "Olya Parashuk";
+const siteName = "Joe Goodreau";
 const fullTitle = bareTitle ? title : `${title} | ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "http://localhost:4321");
 ---

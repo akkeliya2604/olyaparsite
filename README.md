@@ -1,6 +1,9 @@
-# Olya Parashuk — portfolio
+# Joe Goodreau — site
 
 Astro static site, built from a Figma design, deployed to Cloudflare Workers.
+
+> Built from the Figma file *Project — Joe Goodreau (new site)*. All page copy
+> is placeholder until the corresponding frame is implemented.
 
 ## Quick start
 
