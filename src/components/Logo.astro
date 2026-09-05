@@ -1,11 +1,4 @@
 ---
-/**
- * TODO(figma): typographic reconstruction, not the exported asset.
- * The design's "MR" monogram did not come back from download_assets — the
- * node has >20 source images and the logo fell outside the first 20, and
- * no SVG layers were surfaced. Replace with the real export when available;
- * see docs/figma-to-web.md.
- */
 interface Props {
   /** Nav uses the compact lockup; the footer uses the same at larger scale. */
   size?: "sm" | "md";
@@ -14,7 +7,7 @@ const { size = "sm" } = Astro.props;
 ---
 
 <a href="/" class:list={["logo", `logo--${size}`]} aria-label="Maya Reynolds — home">
-  <span class="mark" aria-hidden="true">MR</span>
+  <img src="/logo-mark-light.svg" alt="" class="mark" aria-hidden="true" />
   <span class="name">
     <span>Maya</span>
     <span class="underline">Reynolds</span>
@@ -25,16 +18,12 @@ const { size = "sm" } = Astro.props;
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--sp-paragraph);
     text-decoration: none;
     color: var(--color-text);
   }
 
-  .mark {
-    font-weight: 700;
-    letter-spacing: -0.06em;
-    line-height: 1;
-  }
+  .mark { width: 52px; height: auto; }
 
   .name {
     display: flex;
@@ -44,11 +33,10 @@ const { size = "sm" } = Astro.props;
     letter-spacing: -0.01em;
   }
 
-  .underline { border-bottom: 1.5px solid currentColor; }
+  .underline { border-bottom: 1px solid currentColor; }
 
-  .logo--sm .mark { font-size: 2rem; }
   .logo--sm .name { font-size: 0.75rem; }
 
-  .logo--md .mark { font-size: 2.5rem; }
+  .logo--md .mark { width: 75px; }
   .logo--md .name { font-size: 0.875rem; }
 </style>

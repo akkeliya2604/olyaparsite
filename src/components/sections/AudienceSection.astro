@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import swimmer from "../../assets/underwater-swimmer.png";
+import swimmer from "../../assets/audience-swimmer-figma.png";
 
 const groups = [
   {
@@ -43,7 +43,7 @@ const groups = [
     </div>
 
     <figure class="media">
-      <span class="watermark" aria-hidden="true">MR</span>
+      <img src="/audience-wordmark.svg" alt="" class="watermark" aria-hidden="true" />
       <Image src={swimmer} alt="A swimmer mid-stroke underwater" widths={[520, 900]} sizes="(max-width: 900px) 100vw, 520px" />
     </figure>
   </div>
@@ -82,7 +82,7 @@ const groups = [
     gap: var(--sp-sm);
     margin-top: var(--sp-lg);
     padding: var(--sp-sm) var(--sp-med);
-    background: #E7ECFB;
+    background: var(--color-surface-tint);
     border-radius: var(--radius-lg);
     max-width: 56ch;
   }
@@ -92,7 +92,7 @@ const groups = [
     font-weight: 700;
     font-size: var(--type-body-16);
     text-transform: uppercase;
-    color: var(--black);
+    color: var(--color-text);
   }
 
   .parents p:last-child {
@@ -110,17 +110,18 @@ const groups = [
 
   .watermark {
     position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    font-size: clamp(8rem, 22vw, 18rem);
-    font-weight: 700;
-    letter-spacing: -0.08em;
-    color: rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: none;
+    height: auto;
     pointer-events: none;
   }
 
-  .media :global(img) { position: relative; }
+  .media :global(img) {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    object-fit: cover;
+  }
 
   @media (max-width: 900px) {
     .grid { grid-template-columns: 1fr; }

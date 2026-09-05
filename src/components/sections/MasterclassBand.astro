@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../Button.astro";
-import bg from "../../assets/underwater-dive.png";
+import bg from "../../assets/masterclass-bg-figma.png";
 
 /**
  * TODO(figma): this section reads "Competitive Soccer Players" in the design
@@ -44,7 +44,13 @@ import bg from "../../assets/underwater-dive.png";
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.66) 46%, rgba(0,0,0,0.1) 100%);
+    background: linear-gradient(90deg, var(--color-overlay-strong) 0%, var(--color-overlay-medium) 46%, var(--color-overlay-soft) 100%);
+  }
+
+  .masterclass :global(.bg-media) {
+    left: 6.1%;
+    width: 93.9%;
+    object-position: center 37%;
   }
 
   .inner {

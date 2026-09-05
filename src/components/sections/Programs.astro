@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../Button.astro";
-import bg from "../../assets/principle-resilience.jpeg";
+import bgLeft from "../../assets/program-bg-left-figma.png";
+import bgRight from "../../assets/program-bg-right-figma.png";
 
 const programs = [
   {
@@ -32,7 +33,8 @@ const programs = [
 ---
 
 <section class="programs band-dark">
-  <Image src={bg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" />
+  <Image src={bgLeft} alt="" class="bg-media bg-media--left" widths={[1200, 1920]} sizes="100vw" />
+  <Image src={bgRight} alt="" class="bg-media bg-media--right" widths={[1200, 1920]} sizes="100vw" />
   <div class="veil" aria-hidden="true"></div>
 
   <div class="wrap inner">
@@ -73,7 +75,21 @@ const programs = [
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.92) 100%);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--black) 82%, transparent) 0%, var(--color-overlay-strong) 100%);
+  }
+
+  .programs :global(.bg-media--left) {
+    width: 56%;
+    right: auto;
+    opacity: 0.6;
+    object-position: right center;
+  }
+
+  .programs :global(.bg-media--right) {
+    width: 64%;
+    left: auto;
+    opacity: 0.35;
+    object-position: left center;
   }
 
   .inner { position: relative; z-index: 2; }
@@ -94,16 +110,16 @@ const programs = [
     align-items: center;
     text-align: center;
     padding: var(--sp-med) var(--sp-sm);
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(48, 106, 255, 0.55);
-    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--black) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+    border-radius: var(--radius-feature);
   }
 
   /* The middle card is the primary offer, marked in the design by a blue
      border and an outer glow rather than a different fill. */
   .card--featured {
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 1px var(--color-accent), 0 0 34px rgba(48, 106, 255, 0.45);
+    box-shadow: 0 0 0 1px var(--color-accent), 0 0 34px color-mix(in srgb, var(--color-accent) 45%, transparent);
   }
 
   .label {

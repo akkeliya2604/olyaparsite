@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import oldWay from "../../assets/oldway.png";
-import raceReady from "../../assets/raceready.png";
+import oldWay from "../../assets/problem-old-way.png";
+import raceReady from "../../assets/problem-race-ready.jpg";
+import raceReadyHover from "../../assets/problem-race-ready-hover.png";
 ---
 
 <section class="band-light section" id="about">
@@ -22,7 +23,7 @@ import raceReady from "../../assets/raceready.png";
     </div>
 
     <div class="cards">
-      <article class="card">
+      <article class="card card--old">
         <Image src={oldWay} alt="" class="bg-media" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
         <div class="card-body">
           <h3>The old way:</h3>
@@ -32,6 +33,7 @@ import raceReady from "../../assets/raceready.png";
 
       <article class="card card--accent">
         <Image src={raceReady} alt="" class="bg-media" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
+        <Image src={raceReadyHover} alt="" class="bg-media bg-media--hover" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
         <div class="card-body">
           <h3>The Race Ready way:</h3>
           <p>Train confidence, focus, and composure like any other performance skill.</p>
@@ -63,40 +65,66 @@ import raceReady from "../../assets/raceready.png";
     isolation: isolate;
     display: flex;
     align-items: flex-end;
-    min-height: 210px;
+    min-height: 233px;
     padding: var(--sp-sm);
-    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-radius: 0 var(--radius-feature) 0 0;
     overflow: hidden;
     color: var(--black);
   }
 
   /* Wash the photo out so the label stays readable without a heavy overlay. */
-  .card :global(.bg-media) { opacity: 0.35; }
+  .card :global(.bg-media) {
+    opacity: 0.2;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+
+  .card :global(.bg-media--hover) { opacity: 0; }
 
   .card::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(0deg, rgba(245,245,245,0.95) 20%, rgba(245,245,245,0.55) 100%);
+    background: linear-gradient(90deg, var(--black) 0%, transparent 100%);
+    mix-blend-mode: color;
+    transition: background var(--duration-base) var(--ease-out);
   }
 
   .card-body { position: relative; z-index: 2; }
 
   .card h3 {
     text-transform: uppercase;
-    font-size: var(--type-h4);
+    font-size: var(--type-card-title);
   }
 
   .card p {
-    margin-top: 6px;
-    font-size: 0.8125rem;
+    margin-top: var(--sp-paragraph);
+    font-size: var(--type-body-16);
     color: var(--color-text-body);
     max-width: 34ch;
   }
 
-  .card--accent { border-left: 3px solid var(--color-accent); }
+  .card--accent {
+    border-width: 0 0 0 2px;
+    border-color: var(--color-accent);
+    border-radius: 0 0 var(--radius-feature) 0;
+  }
   .card--accent h3 { color: var(--color-accent); }
+
+  .card--old:hover :global(.bg-media) { opacity: 1; }
+  .card--old:hover::after { background: var(--black); }
+  .card--old:hover h3 { color: var(--white); }
+  .card--old:hover p { color: var(--color-text); }
+
+  .card--accent:hover :global(.bg-media:not(.bg-media--hover)) { opacity: 0; }
+  .card--accent:hover :global(.bg-media--hover) { opacity: 1; }
+  .card--accent:hover::after {
+    background: linear-gradient(0deg, color-mix(in srgb, var(--black) 80%, transparent), transparent 65%);
+    mix-blend-mode: normal;
+  }
+  .card--accent:hover h3,
+  .card--accent:hover p { color: var(--white); }
 
   .tick {
     display: block;

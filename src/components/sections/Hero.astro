@@ -45,7 +45,7 @@ import heroBg from "../../assets/hero-bg.png";
     isolation: isolate;
     display: flex;
     align-items: flex-end;
-    min-height: min(88vh, 820px);
+    min-height: min(100vh, 900px);
     padding-block: calc(var(--sp-content) * 1.15) var(--sp-content);
     overflow: hidden;
   }
@@ -57,8 +57,8 @@ import heroBg from "../../assets/hero-bg.png";
     inset: 0;
     z-index: 1;
     background:
-      linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 38%, rgba(0,0,0,0.15) 78%),
-      linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 45%);
+      linear-gradient(90deg, var(--color-overlay-strong) 0%, var(--color-overlay-medium) 38%, var(--color-overlay-soft) 78%),
+      linear-gradient(0deg, var(--color-overlay-medium) 0%, transparent 45%);
   }
 
   .content { position: relative; z-index: 2; }

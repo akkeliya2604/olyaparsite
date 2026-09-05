@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../Button.astro";
-import portrait from "../../assets/maya-portrait.png";
+import portrait from "../../assets/maya-portrait-figma.png";
 ---
 
 <section class="band-light section" id="work-with-maya">
@@ -52,7 +52,10 @@ import portrait from "../../assets/maya-portrait.png";
 
   .media :global(img) {
     width: 100%;
-    border-radius: var(--radius-lg);
+    aspect-ratio: 508 / 575;
+    object-fit: cover;
+    object-position: 30% 16%;
+    border-radius: var(--radius-feature);
   }
 
   .copy p {

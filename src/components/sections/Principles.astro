@@ -1,11 +1,11 @@
 ---
 import { Image } from "astro:assets";
-import mindset from "../../assets/principle-mindset.jpeg";
-import focus from "../../assets/principle-focus.png";
-import composure from "../../assets/principle-composure.jpeg";
-import visualization from "../../assets/principle-visualization.png";
-import routines from "../../assets/principle-routines.png";
-import resilience from "../../assets/principle-resilience.jpeg";
+import mindset from "../../assets/principle-mindset-figma.jpg";
+import focus from "../../assets/principle-focus-figma.png";
+import composure from "../../assets/principle-composure-figma.png";
+import visualization from "../../assets/principle-visualization-figma.png";
+import routines from "../../assets/principle-routines-figma.png";
+import resilience from "../../assets/principle-resilience-figma.png";
 
 const principles = [
   { title: "Mindset", body: "Choose the response that moves you forward.", img: mindset },
@@ -68,10 +68,10 @@ const principles = [
     isolation: isolate;
     display: flex;
     align-items: flex-end;
-    min-height: 128px;
+    min-height: 168px;
     padding: var(--sp-paragraph) var(--sp-sm);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-feature) var(--radius-feature) var(--radius-feature) 0;
     overflow: hidden;
   }
 
@@ -80,7 +80,7 @@ const principles = [
   .card :global(.card-img) {
     position: absolute;
     inset: 0 0 0 auto;
-    width: 68%;
+    width: 73%;
     height: 100%;
     object-fit: cover;
     z-index: -2;
@@ -92,10 +92,13 @@ const principles = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(90deg, #000 26%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.25) 100%);
+    background: linear-gradient(90deg, var(--black) 0%, color-mix(in srgb, var(--black) 72%, transparent) 52%, transparent 100%);
   }
 
-  .card h3 { text-transform: uppercase; }
+  .card h3 {
+    font-size: var(--type-card-title);
+    text-transform: uppercase;
+  }
 
   .card p {
     margin-top: 6px;

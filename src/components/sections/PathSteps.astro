@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import understand from "../../assets/principle-mindset.jpeg";
-import train from "../../assets/principle-composure.jpeg";
-import personalize from "../../assets/principle-focus.png";
+import understand from "../../assets/path-understand-figma.jpg";
+import train from "../../assets/path-train-figma.jpg";
+import personalize from "../../assets/path-personalize-figma.jpg";
 
 const steps = [
   {
@@ -90,9 +90,9 @@ const steps = [
 
   .thumb {
     position: relative;
-    border-radius: var(--radius-md);
+    height: 150px;
+    border-radius: var(--radius-media);
     overflow: hidden;
-    aspect-ratio: 300 / 84;
     background: var(--black);
   }
 
@@ -109,7 +109,7 @@ const steps = [
     transform: translateY(-50%);
     font-size: 2.5rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.5);
+    color: color-mix(in srgb, var(--white) 50%, transparent);
     line-height: 1;
   }
 

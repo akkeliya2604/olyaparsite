@@ -30,15 +30,15 @@ const { href, variant = "solid", size = "md", class: extra = "" } = Astro.props;
       border-color var(--duration-fast) var(--ease-out);
   }
 
-  .btn--md { padding: 14px var(--sp-med); font-size: var(--type-body-16); }
+  .btn--md { padding: var(--sp-paragraph) var(--sp-med); font-size: var(--type-body-16); }
   .btn--sm { padding: 10px var(--sp-sm); font-size: 0.875rem; }
 
   .btn--solid {
-    background: var(--color-accent);
+    background: var(--color-action);
     color: var(--white);
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-action);
   }
-  .btn--solid:hover { background: #1F52D8; border-color: #1F52D8; }
+  .btn--solid:hover { background: var(--color-action-hover); border-color: var(--color-action-hover); }
 
   .btn--outline {
     background: transparent;

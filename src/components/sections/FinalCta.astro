@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../Button.astro";
-import bg from "../../assets/principle-visualization.png";
+import bg from "../../assets/final-cta-bg-figma.png";
 ---
 
 <section class="final band-dark">
@@ -17,8 +17,6 @@ import bg from "../../assets/principle-visualization.png";
     <Button href="#masterclass">Watch the Free Masterclass</Button>
   </div>
 
-  <!-- Thin accent strip separating the band from the footer plate. -->
-  <div class="rule" aria-hidden="true"></div>
 </section>
 
 <style>
@@ -26,6 +24,9 @@ import bg from "../../assets/principle-visualization.png";
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    min-height: 532px;
+    display: grid;
+    place-items: center;
     padding-block: var(--sp-content);
     text-align: center;
   }
@@ -34,7 +35,7 @@ import bg from "../../assets/principle-visualization.png";
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.62);
+    background: color-mix(in srgb, var(--black) 62%, transparent);
   }
 
   .inner {
@@ -50,16 +51,5 @@ import bg from "../../assets/principle-visualization.png";
     text-transform: uppercase;
     font-size: clamp(2rem, 1rem + 3.6vw, 3.5rem);
     line-height: 1.08;
-  }
-
-  .rule {
-    position: absolute;
-    left: 25%;
-    right: 25%;
-    bottom: 0;
-    z-index: 2;
-    height: 6px;
-    border-radius: var(--radius-pill) var(--radius-pill) 0 0;
-    background: #1C5C86;
   }
 </style>

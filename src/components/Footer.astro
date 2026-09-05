@@ -1,12 +1,10 @@
 ---
 import Logo from "./Logo.astro";
 
-// TODO(figma): the design shows three identical glyphs with no destinations,
-// which reads as placeholder. Real platforms and URLs needed before launch.
 const socials = [
-  { href: "#", label: "Instagram" },
-  { href: "#", label: "Social profile 2" },
-  { href: "#", label: "Social profile 3" },
+  { href: "#", label: "Instagram", icon: "/social-instagram.svg" },
+  { href: "#", label: "Social profile 2", icon: "/social-video.svg" },
+  { href: "#", label: "Social profile 3", icon: "/social-facebook.svg" },
 ];
 ---
 
@@ -17,14 +15,10 @@ const socials = [
     <p class="copyright">&copy; 2026</p>
 
     <ul class="socials">
-      {socials.map(({ href, label }) => (
+      {socials.map(({ href, label, icon }) => (
         <li>
           <a href={href} aria-label={label}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8" />
-              <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8" />
-              <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" />
-            </svg>
+            <img src={icon} alt="" aria-hidden="true" />
           </a>
         </li>
       ))}
@@ -34,9 +28,9 @@ const socials = [
 
 <style>
   .site-footer {
-    background: var(--navy);
+    background: var(--color-footer);
     color: var(--white);
-    padding-block: var(--sp-lg);
+    padding-block: var(--sp-footer);
   }
 
   .inner {
@@ -64,9 +58,10 @@ const socials = [
     width: 30px;
     height: 30px;
     border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.10);
+    background: color-mix(in srgb, var(--white) 10%, transparent);
     color: var(--white);
     transition: background-color var(--duration-fast) var(--ease-out);
   }
   .socials a:hover { background: var(--color-accent); }
+  .socials img { width: 16px; height: 16px; }
 </style>

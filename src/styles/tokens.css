@@ -31,6 +31,11 @@
   --stone:  #636464;   /* Figma: Stone */
   --slate:  #5F5F5F;   /* Figma: 5F5F5F */
   --blue:   #306AFF;   /* Figma: 306AFF — the single accent */
+  --blue-action: #1B7ACD; /* Figma button fill */
+  --blue-logo: #3065E9; /* Figma wordmark accent */
+  --ice: #E7ECFB;
+  --footer-navy: #0E1721;
+  --footer-muted: #506174;
 
   /* Not a Figma variable: the footer plate reads as a very dark navy,
      sampled from the design render. Kept here so it stays swappable. */
@@ -42,6 +47,7 @@
   --sp-med:       30px;
   --sp-lg:        40px;
   --sp-content:  120px;
+  --sp-footer:    70px;
 
   /* Type families. --font-sans stands in for Graphik. */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -53,6 +59,7 @@
   --type-h1:       clamp(2.5rem, 1.2rem + 4.2vw, 4.5rem);    /* 72px */
   --type-h2:       clamp(1.75rem, 1.1rem + 2.1vw, 2.625rem); /* 42px */
   --type-h4:       1.25rem;                                   /* 20px */
+  --type-card-title: 1.75rem;                                 /* 28px */
   --type-subtitle: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);  /* 20px */
   --type-alt-sub:  clamp(1.125rem, 1rem + 0.5vw, 1.5rem);    /* 24px, Barlow */
   --type-body-18:  1.125rem;                                  /* 18px */
@@ -73,6 +80,15 @@
   --color-border:        rgba(255, 255, 255, 0.14);
   --color-surface:       rgba(255, 255, 255, 0.04);
   --color-focus:         var(--blue);
+  --color-action:         var(--blue-action);
+  --color-brand-detail:   var(--blue-logo);
+  --color-surface-tint:   var(--ice);
+  --color-footer:         var(--footer-navy);
+  --color-footer-muted:   var(--footer-muted);
+  --color-overlay-strong: color-mix(in srgb, var(--black) 92%, transparent);
+  --color-overlay-medium: color-mix(in srgb, var(--black) 72%, transparent);
+  --color-overlay-soft:   color-mix(in srgb, var(--black) 15%, transparent);
+  --color-action-hover:   color-mix(in srgb, var(--blue-action) 82%, var(--black));
 
   --content-width: 1260px;  /* measured from the 1920px design */
   --prose-width: 46rem;
@@ -80,6 +96,8 @@
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
+  --radius-media: 40px;
+  --radius-feature: 50px;
   --radius-pill: 999px;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

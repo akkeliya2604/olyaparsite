@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import poolBg from "../../assets/pool-blocks.png";
-import emma from "../../assets/testimonial-01.png";
-import noah from "../../assets/testimonial-02.png";
+import poolBg from "../../assets/testimonial-bg-figma.png";
+import emma from "../../assets/testimonial-01-figma.png";
+import noah from "../../assets/testimonial-02-figma.png";
 
 /**
  * The design's dial reads "/ 04", but only two cards carry copy — the third and
@@ -133,13 +133,17 @@ const total = String(testimonials.length).padStart(2, "0");
     padding-block: var(--sp-content);
   }
 
-  .testimonials :global(.bg-media) { filter: grayscale(1); }
+  .testimonials :global(.bg-media) {
+    filter: grayscale(1);
+    object-position: center;
+    opacity: 0.3;
+  }
 
   .veil {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(245, 245, 245, 0.86);
+    background: linear-gradient(180deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 86%, transparent) 52%, var(--color-bg) 100%);
   }
 
   .inner {
@@ -227,7 +231,7 @@ const total = String(testimonials.length).padStart(2, "0");
     gap: var(--sp-sm);
     padding: var(--sp-med);
     background: var(--white);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-feature);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
   }
 
@@ -258,7 +262,7 @@ const total = String(testimonials.length).padStart(2, "0");
     min-height: 210px;
     height: auto;
     object-fit: cover;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-feature);
   }
 
   @media (max-width: 900px) {

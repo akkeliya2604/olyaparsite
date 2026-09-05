@@ -1,96 +1,93 @@
 ---
+import { Image } from "astro:assets";
 import Button from "../Button.astro";
-
-/**
- * TODO(figma): the three tiles are empty white rectangles in the design — no
- * images were placed. Rendered as empty framed slots rather than invented
- * content; drop real posts (or an embed) in when available.
- *
- * Two wording fixes applied against the design: "perfomance" -> "performance",
- * and "Follow in Instagram" -> "Follow on Instagram". Both are plain language
- * errors rather than design decisions. Worth correcting in Figma too.
- */
-const tiles = [
-  { ratio: "3 / 4", label: "Instagram post placeholder 1" },
-  { ratio: "3 / 5", label: "Instagram post placeholder 2" },
-  { ratio: "3 / 4", label: "Instagram post placeholder 3" },
-];
+import postOne from "../../assets/instagram-post-01.jpg";
+import postTwo from "../../assets/instagram-post-02.jpg";
+import storyOne from "../../assets/instagram-story-01.jpg";
 ---
 
 <section class="band-light section">
-  <div class="wrap">
-    <h2>Follow the work</h2>
+  <div class="wrap layout">
+    <div class="first-column">
+      <div class="intro">
+        <h2>Follow the work</h2>
 
-    <p class="lede">
-      Mental performance tools for training days, race days, and everything in
-      between.
-    </p>
+        <p class="lede">
+          Mental performance tools for training days, race days, and everything in
+          between.
+        </p>
 
-    <div class="actions">
-      <a href="#contact" class="glyph" aria-label="Instagram">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8" />
-          <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8" />
-          <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" />
-        </svg>
-      </a>
+        <div class="actions">
+          <a href="#contact" class="glyph" aria-label="Instagram">
+            <img src="/instagram-icon.svg" alt="" />
+          </a>
 
-      <Button href="#contact" size="sm">Follow on Instagram</Button>
+          <Button href="#contact" size="sm">Follow on Instagram</Button>
+        </div>
+      </div>
+
+      <figure class="tile tile--first">
+        <Image src={postOne} alt="" widths={[412, 824]} sizes="(max-width: 900px) 100vw, 412px" />
+      </figure>
     </div>
 
-    <ul class="tiles">
-      {tiles.map(({ ratio, label }) => (
-        <li class="tile" style={`aspect-ratio:${ratio}`} aria-label={label}></li>
-      ))}
-    </ul>
+    <figure class="tile tile--tall">
+      <Image src={postTwo} alt="" widths={[412, 824]} sizes="(max-width: 900px) 100vw, 412px" />
+    </figure>
+
+    <figure class="tile tile--tall">
+      <Image src={storyOne} alt="" widths={[412, 824]} sizes="(max-width: 900px) 100vw, 412px" />
+    </figure>
   </div>
 </section>
 
 <style>
-  h2 { text-align: center; }
+  .layout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: var(--sp-paragraph);
+  }
+
+  .first-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 733px;
+  }
 
   .lede {
-    margin-top: var(--sp-paragraph);
-    text-align: center;
-    font-size: var(--type-body-16);
-    color: var(--color-text-body);
+    margin-top: var(--sp-sm);
+    font-size: var(--type-body-18);
+    color: var(--color-text);
   }
 
   .actions {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: var(--sp-paragraph);
     margin-top: var(--sp-sm);
   }
 
   .glyph {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: var(--radius-sm);
-    background: var(--color-accent);
-    color: var(--white);
+    width: 52px;
+    height: 52px;
   }
 
-  .tiles {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: center;
-    gap: var(--sp-sm);
-    max-width: 780px;
-    margin: var(--sp-lg) auto 0;
-    list-style: none;
-  }
+  .glyph img { width: 100%; height: 100%; }
 
-  .tile {
-    background: var(--white);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-sm);
-  }
+  .tile { margin: 0; overflow: hidden; }
+  .tile :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .tile--first { height: 515px; }
+  .tile--tall { height: 733px; }
 
-  @media (max-width: 700px) {
-    .tiles { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .first-column { min-height: 0; gap: var(--sp-lg); }
+    .tile--first,
+    .tile--tall { height: auto; aspect-ratio: 4 / 5; }
   }
 </style>
