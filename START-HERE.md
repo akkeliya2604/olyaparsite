@@ -27,6 +27,10 @@ Three ideas, and that is genuinely all:
 Nothing is ever published until you deliberately push. You cannot break the
 live site by editing on your computer.
 
+> **Account owner?** Two one-time admin tasks must happen first — granting
+> push access and turning on automatic publishing. See
+> **[docs/owner-setup.md](docs/owner-setup.md)**.
+
 ---
 
 ## Part 1 — One-time setup
