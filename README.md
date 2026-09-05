@@ -10,6 +10,9 @@ Astro static site, built from a Figma design, deployed to Cloudflare Workers.
 > be redistributed. **Inter** is substituted throughout; Barlow is the design's
 > own secondary face and is used as specified. See `src/styles/fonts.css`.
 
+> **New here, or not a developer?** Read **[START-HERE.md](START-HERE.md)** —
+> it covers installing everything from scratch and publishing your first change.
+
 ## Quick start
 
 ```bash
@@ -69,6 +72,8 @@ ambiguous, or contradictory.
 
 ## Docs
 
+- [START-HERE.md](START-HERE.md) — setup and publishing, for a non-developer
+- [docs/content-map.md](docs/content-map.md) — which file holds which words
 - [docs/figma-to-web.md](docs/figma-to-web.md) — how the Figma design becomes code
 - [docs/cloudflare-deploy.md](docs/cloudflare-deploy.md) — deployment and CI
 - [docs/codex-prompt.md](docs/codex-prompt.md) — handoff prompt for building pages

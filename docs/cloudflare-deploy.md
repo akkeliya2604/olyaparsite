@@ -37,47 +37,26 @@ every other tool are unaffected. It is a virtualenv, but for Cloudflare.
 
 `.cf-home/` contains a live OAuth token and is gitignored. Never commit it.
 
-## One-time setup
+## Current state
 
-### 1. Log in as Olya
+Already done — do not repeat these:
 
-```bash
-npm run cf:login
-```
+- The Worker **`race-ready-site` exists and is deployed** in Olya's Cloudflare
+  account (`olga.par.work@gmail.com`).
+- `.cf-home/` on the original build machine is logged in to that same account.
+  `npm run cf:whoami` confirms which account you are acting as.
+- The GitHub remote is set to <https://github.com/akkeliya2604/olyaparsite>.
 
-A browser opens. **Make sure the Cloudflare session in that browser is Olya's
-account, not the other one** — log out first, or use a private window. Then:
+What remains is connecting the repo so pushes publish automatically.
 
-```bash
-npm run cf:whoami
-```
+## Connecting the repo for automatic deploys
 
-Confirm the email shown is Olya's before going further.
+Do this once, signed in to **Olya's** Cloudflare account.
 
-### 2. First deploy from your machine
-
-This creates the Worker, which must exist before a repo can be attached to it.
-
-```bash
-npm run deploy
-```
-
-Wrangler prints the live URL: `https://race-ready-site.<subdomain>.workers.dev`
-
-### 3. Push the repo to GitHub
-
-```bash
-git remote add origin git@github.com:<user>/<repo>.git
-```
-
-```bash
-git push -u origin main
-```
-
-### 4. Connect the repo for automatic deploys
-
-In **Olya's** Cloudflare dashboard:
 **Workers & Pages → `race-ready-site` → Settings → Builds → Connect**
+
+Authorise Cloudflare's GitHub app for the `akkeliya2604/olyaparsite` repository,
+then set:
 
 | Setting | Value |
 |---|---|
@@ -88,18 +67,37 @@ In **Olya's** Cloudflare dashboard:
 | Production branch | `main` |
 | Build variables | *(none needed)* |
 
-Note the deploy command here is bare `npx wrangler deploy`, **not** the npm
-script. That is correct: Cloudflare's build runners already execute inside
-Olya's account, so there is no ambiguity to resolve and no `.cf-home/` present.
-The wrapper only exists to disambiguate *your laptop*.
+The deploy command is bare `npx wrangler deploy`, **not** the npm script. That
+is correct: Cloudflare's build runners already execute inside Olya's account, so
+there is no ambiguity to resolve and no `.cf-home/` present. The wrapper exists
+only to disambiguate a laptop that has two Cloudflare accounts.
 
-From then on, `git push` to `main` deploys. Pushes to any other branch build a
-**preview version** at its own URL without touching production — useful for
-trying a layout change you are unsure about.
+After this, `git push` to `main` publishes. Pushes to any other branch build a
+**preview version** at its own URL without touching production.
 
 > **The most common failure:** `name` in `wrangler.jsonc` must exactly match the
-> Worker name in the dashboard. If they differ, the build succeeds and the
-> deploy fails with a confusing error.
+> Worker name in the dashboard. They match today (`race-ready-site`). If you
+> rename either, rename both.
+
+## Setting up a new machine
+
+Wrangler is a devDependency, so `npm install` provides it. Nobody needs a global
+install.
+
+If the machine will deploy manually (rather than relying on git pushes), log in
+once:
+
+```bash
+npm run cf:login
+```
+
+```bash
+npm run cf:whoami
+```
+
+Confirm it prints `olga.par.work@gmail.com` before deploying. On a machine with
+only one Cloudflare account this is still safe — the credential simply lives in
+`.cf-home/` instead of the machine-wide location.
 
 ## Differences from your other project
 

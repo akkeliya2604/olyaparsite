@@ -1,70 +1,95 @@
 # Codex handoff
 
-## Codex setup *(runtime settings — not part of the prompt)*
+Codex reads `AGENTS.md` automatically, so most of this is already in its context
+when it opens the repo. Use the prompts below for bigger or riskier tasks where
+you want the constraints restated explicitly.
 
-- **Task:** new task per case study; do not accumulate one long thread.
-- **Mode:** Default — the scaffold and acceptance criteria already exist.
-- **Model / reasoning:** balanced coding model, medium reasoning. Raise to high only for the Figma variable → token mapping.
-- **Environment:** local checkout of this repo; no worktree needed for single-branch work.
-- **Context:** `src/styles/tokens.css`, `src/layouts/BaseLayout.astro`, `src/content.config.ts`, one existing page as a pattern.
-- **Tools:** Figma MCP server (`https://mcp.figma.com/mcp`). Nothing else.
+## Codex setup *(runtime settings — not part of any prompt)*
+
+- **Task:** a new task per change; do not accumulate one long thread.
+- **Mode:** Default for copy and content edits; Plan for anything touching layout,
+  tokens, or more than one section.
+- **Model / reasoning:** balanced coding model, medium reasoning. Raise to high
+  only for Figma variable → token mapping or cross-section refactors.
+- **Environment:** local checkout; no worktree needed for single-branch work.
+- **Context:** `AGENTS.md`, `docs/content-map.md`, plus the one section file
+  being changed. Do not preload every section.
+- **Tools:** Figma MCP server only when working from the design.
 
 ---
 
-## Prompt — copy from here down
+## Prompt A — everyday content change
+
+For copy, testimonials, FAQ answers, swapping an image.
 
 ```text
-You are working in an Astro 7 static site that is a UI/UX portfolio, deployed to
-Cloudflare Workers static assets. The scaffold, build and deploy pipeline already
-work — do not restructure them.
+Read AGENTS.md first, then make this change:
 
-GOAL
-Build the page described by this Figma frame: <PASTE FIGMA FRAME URL WITH node-id>
+<describe the change in plain language — which section as it appears on the
+page, and what the new text should say>
 
-Read the frame through the Figma MCP server. Do not guess at values that the
-design already specifies.
+Rules:
+- Find the section using docs/content-map.md.
+- Change only the words. Do not touch <style> blocks, imports, or layout.
+- If any text I gave you does not fit the existing structure (too long, wrong
+  number of items), stop and ask rather than restructuring the section.
+- Do not fix unrelated things you notice. Mention them instead.
 
-PATHS
-- src/styles/tokens.css      Design tokens. Layer 1 = primitives, Layer 2 =
-                             semantic aliases, Layer 3 = dark mode.
-- src/layouts/BaseLayout.astro  Wraps every page; handles <head>, skip link,
-                             header and footer.
-- src/components/            Reusable components, one .astro file each.
-- src/pages/                 File-based routing. index.astro -> /
-- src/content/work/*.md      Case studies. Schema enforced in src/content.config.ts
-- public/                    Verbatim static files (SVG icons, fonts)
-- src/assets/                Images that should go through Astro's <Image />
-
-CONSTRAINTS
-- Components must only use Layer 2 tokens (--color-text, --space-4). Never
-  hardcode a colour or spacing value. If a needed token does not exist, add it
-  to tokens.css Layer 1 + Layer 2 rather than inlining the value.
-- Semantic HTML: real <header>/<nav>/<main>/<footer>, headings in order with no
-  skipped levels, lists for lists. No <div> soup, no absolute positioning for
-  page layout.
-- Must work at 375px wide with no horizontal scroll, and be fully keyboard
-  navigable with a visible focus ring.
-- Text contrast >= 4.5:1. If the Figma design fails this, flag it rather than
-  silently shipping it.
-- Use Astro's <Image /> for photos. Raw <img> only for SVGs in public/.
-- Ship no client-side JavaScript unless the design genuinely requires
-  interactivity; say so explicitly if you add any.
-- Do not edit wrangler.jsonc, astro.config.mjs, or package.json scripts.
-- Do not commit, push, or deploy.
-
-COMPLETION CRITERIA
-- The route renders and visually matches the Figma frame at 1440px and 375px.
-- `npm test` passes with 0 errors and 0 warnings.
-- No new hardcoded colour or spacing values anywhere outside tokens.css.
-- Every image has an alt attribute (empty alt for decorative images).
-
-VERIFICATION (run these; report actual output, do not assume)
-1. npm test
-2. npm run build && npm run cf:preview, then check the new route, a deep link,
-   and a nonexistent path returning the custom 404.
-3. State explicitly which parts of the frame you could not reproduce and why.
-
-STOPPING POINT
-Stop after verification and report. Do not commit, push, deploy, or start on
-another frame.
+Then run `npm test` and report the real output. Do not commit or push.
+Tell me which section changed and what to look at in the browser.
 ```
+
+## Prompt B — building a new section from Figma
+
+```text
+Read AGENTS.md first. Build the section in this Figma frame:
+<PASTE FIGMA FRAME URL WITH node-id>
+
+Read it through the Figma MCP server. Do not guess values the design specifies.
+
+Constraints:
+- Use only Layer 2 tokens from src/styles/tokens.css (--color-text, --sp-med).
+  If a token is missing, add it to tokens.css rather than inlining a value.
+- Follow the pattern of the existing files in src/components/sections/, and set
+  the section's band with .band-light / .band-dark rather than styling colours
+  directly.
+- Semantic HTML, headings in order, alt on every image, keyboard reachable.
+- No client-side JavaScript unless the design requires interaction. Say so
+  explicitly if you add any.
+- Use Astro's <Image /> for photos.
+
+Completion criteria:
+- Renders correctly at 1440px and 375px.
+- `npm test` passes with 0 errors and 0 warnings.
+- No hardcoded colour or spacing values outside tokens.css.
+
+Verify with `npm test` and `npm run cf:preview`, and report the actual output.
+State anything in the frame you could not reproduce and why.
+Stop there — do not commit, push, or deploy.
+```
+
+## Prompt C — a build is failing
+
+```text
+Read AGENTS.md first. `npm test` (or the Cloudflare build) is failing with:
+
+<PASTE THE FULL ERROR TEXT>
+
+Find the cause and fix it with the smallest change that works. Do not refactor
+anything else while you are in there.
+
+Explain in plain language what was wrong and what you changed. Re-run `npm test`
+and show me the real output. Do not commit or push.
+```
+
+---
+
+## What to hand Codex, and what to decide yourself
+
+Codex is good at: finding the right file, making the edit safely, catching build
+errors, explaining what a piece of code does.
+
+Decide yourself: what the site should say, which photo to use, whether the
+"Soccer" copy should stay, what the FAQ answers are. Codex should ask about
+these rather than invent them — `AGENTS.md` tells it to. If it invents content
+instead of asking, that is worth pushing back on.
