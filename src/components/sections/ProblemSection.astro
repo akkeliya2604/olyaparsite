@@ -1,0 +1,128 @@
+---
+import { Image } from "astro:assets";
+import oldWay from "../../assets/oldway.png";
+import raceReady from "../../assets/raceready.png";
+---
+
+<section class="band-light section" id="about">
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="tick" aria-hidden="true"></span>
+      <h2>Most swimmers train everything but the moment that decides the race</h2>
+      <p>You know your pace. You have done the sets. Your body is ready.</p>
+      <p>
+        But when the meet gets loud, the pressure builds, or the first split is
+        not what you expected, your mind can pull you away from the race you
+        trained to swim.
+      </p>
+      <p>
+        Physical preparation gets you to the block. Mental preparation helps you
+        trust your training when the moment arrives.
+      </p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <Image src={oldWay} alt="" class="bg-media" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
+        <div class="card-body">
+          <h3>The old way:</h3>
+          <p>Hope confidence shows up on race day.</p>
+        </div>
+      </article>
+
+      <article class="card card--accent">
+        <Image src={raceReady} alt="" class="bg-media" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
+        <div class="card-body">
+          <h3>The Race Ready way:</h3>
+          <p>Train confidence, focus, and composure like any other performance skill.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--sp-content);
+    align-items: center;
+  }
+
+  /* Visual order is cards-then-copy; source order is copy-then-cards so the
+     heading outline and the screen-reader reading order both stay correct. */
+  .cards {
+    order: -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: 210px;
+    padding: var(--sp-sm);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    color: var(--black);
+  }
+
+  /* Wash the photo out so the label stays readable without a heavy overlay. */
+  .card :global(.bg-media) { opacity: 0.35; }
+
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(0deg, rgba(245,245,245,0.95) 20%, rgba(245,245,245,0.55) 100%);
+  }
+
+  .card-body { position: relative; z-index: 2; }
+
+  .card h3 {
+    text-transform: uppercase;
+    font-size: var(--type-h4);
+  }
+
+  .card p {
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    color: var(--color-text-body);
+    max-width: 34ch;
+  }
+
+  .card--accent { border-left: 3px solid var(--color-accent); }
+  .card--accent h3 { color: var(--color-accent); }
+
+  .tick {
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin-bottom: var(--sp-sm);
+    background: var(--color-accent);
+    clip-path: polygon(0 60%, 38% 100%, 100% 12%, 82% 0, 36% 66%, 14% 46%);
+  }
+
+  .copy h2 { max-width: 20ch; }
+
+  .copy p {
+    margin-top: var(--sp-paragraph);
+    font-size: var(--type-body-16);
+    line-height: 1.55;
+    color: var(--color-text-body);
+    max-width: 46ch;
+  }
+
+  .copy p:first-of-type { margin-top: var(--sp-med); }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+  }
+</style>

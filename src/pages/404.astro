@@ -1,30 +1,41 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-// Builds to dist/404.html, which wrangler.jsonc serves via
-// assets.not_found_handling = "404-page".
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+// Builds to dist/404.html, served via assets.not_found_handling in wrangler.jsonc.
 ---
 
-<BaseLayout title="Page not found">
-  <section class="wrap notfound">
-    <p class="code">404</p>
-    <h1>That page does not exist.</h1>
-    <p class="hint">It may have been renamed or moved.</p>
-    <p><a href="/">Back to the homepage &rarr;</a></p>
+<BaseLayout title="Page not found — Maya Reynolds">
+  <section class="notfound band-dark">
+    <div class="wrap">
+      <p class="code">404</p>
+      <h1>That page does not exist.</h1>
+      <p class="hint">It may have been renamed or moved.</p>
+      <Button href="/">Back to the homepage</Button>
+    </div>
   </section>
+  <Footer />
 </BaseLayout>
 
 <style>
   .notfound {
-    max-width: var(--prose-width);
-    padding-block: var(--space-24);
+    display: grid;
+    place-items: center;
+    min-height: 70vh;
+    padding-block: var(--sp-content);
     text-align: center;
   }
+
   .code {
-    font-family: var(--font-mono);
-    font-size: var(--size-sm);
-    color: var(--color-text-subtle);
+    font-size: var(--type-body-16);
     letter-spacing: 0.2em;
-    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
   }
-  .hint { margin-block: var(--space-4) var(--space-8); color: var(--color-text-muted); }
+
+  h1 { margin-top: var(--sp-sm); font-size: var(--type-h2); }
+
+  .hint {
+    margin-block: var(--sp-paragraph) var(--sp-med);
+    color: var(--color-text-body);
+  }
 </style>

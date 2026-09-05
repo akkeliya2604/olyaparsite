@@ -1,0 +1,269 @@
+---
+import { Image } from "astro:assets";
+import poolBg from "../../assets/pool-blocks.png";
+import emma from "../../assets/testimonial-01.png";
+import noah from "../../assets/testimonial-02.png";
+
+/**
+ * The design's dial reads "/ 04", but only two cards carry copy — the third and
+ * fourth sit outside the frame. The counter below is driven by the real slide
+ * count rather than a hardcoded 04, so it stays truthful until the remaining
+ * testimonials arrive.
+ *
+ * TODO(figma): Noah's quote is reconstructed from a card clipped by the frame
+ * edge. The visible line breaks constrain the wording tightly, but it should be
+ * verified against the Figma file before launch.
+ */
+const testimonials = [
+  {
+    quote:
+      "I used to arrive at every meet wondering which version of me would show up. Now I have a routine that helps me settle in, focus on my race, and trust the work I've already done.",
+    name: "Emma Collins",
+    role: "High School Swimmer",
+    img: emma,
+    alt: "Emma Collins beside a pool",
+  },
+  {
+    quote:
+      "One disappointing swim used to affect the rest of my meet. Learning how to reset between races changed everything. I review what happened without carrying it onto the next race.",
+    name: "Noah Bennett",
+    role: "College Swimmer",
+    img: noah,
+    alt: "Noah Bennett beside a pool",
+  },
+];
+
+const total = String(testimonials.length).padStart(2, "0");
+---
+
+<section class="testimonials band-light">
+  <Image src={poolBg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" />
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="wrap inner">
+    <div class="lede">
+      <h2>Confidence That Holds Under Pressure</h2>
+      <p>
+        What swimmers say about the changes they notice&mdash;in training, at
+        meets, and between races.
+      </p>
+
+      <div class="dial">
+        <button type="button" class="arrow" data-dir="-1" aria-label="Previous testimonial">
+          &#8592;
+        </button>
+
+        <p class="count">
+          <span class="current">01</span>
+          <span class="total">/ {total}</span>
+        </p>
+
+        <button type="button" class="arrow" data-dir="1" aria-label="Next testimonial">
+          &#8594;
+        </button>
+      </div>
+    </div>
+
+    <ul class="rail" tabindex="0" aria-label="Testimonials">
+      {testimonials.map(({ quote, name, role, img, alt }) => (
+        <li class="card">
+          <div class="card-copy">
+            <span class="marks" aria-hidden="true">
+              <svg width="52" height="22" viewBox="0 0 52 22" fill="none">
+                <path d="M2 20C2 9 9 3 20 2c-8 4-11 9-11 18z" stroke="#306AFF" stroke-width="2.4" stroke-linejoin="round" />
+                <path d="M32 20C32 9 39 3 50 2c-8 4-11 9-11 18z" stroke="#306AFF" stroke-width="2.4" stroke-linejoin="round" />
+              </svg>
+            </span>
+
+            <blockquote>{quote}</blockquote>
+
+            <p class="name">{name}</p>
+            <p class="role">{role}</p>
+          </div>
+
+          <Image src={img} alt={alt} class="portrait" widths={[220, 440]} sizes="220px" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  const rail = document.querySelector<HTMLElement>(".rail");
+  const current = document.querySelector<HTMLElement>(".count .current");
+  const cards = rail ? Array.from(rail.querySelectorAll<HTMLElement>(".card")) : [];
+
+  // Nearest card to the rail's left edge, which stays correct mid-momentum
+  // and after a manual swipe, not just after an arrow press.
+  const indexInView = () => {
+    if (!rail) return 0;
+    let best = 0;
+    let bestGap = Infinity;
+    cards.forEach((card, i) => {
+      const gap = Math.abs(card.offsetLeft - rail.scrollLeft);
+      if (gap < bestGap) {
+        bestGap = gap;
+        best = i;
+      }
+    });
+    return best;
+  };
+
+  const paint = () => {
+    if (current) current.textContent = String(indexInView() + 1).padStart(2, "0");
+  };
+
+  document.querySelectorAll<HTMLButtonElement>(".arrow").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const dir = Number(btn.dataset.dir);
+      const next = Math.min(cards.length - 1, Math.max(0, indexInView() + dir));
+      rail?.scrollTo({ left: cards[next].offsetLeft, behavior: "smooth" });
+    });
+  });
+
+  rail?.addEventListener("scroll", () => window.requestAnimationFrame(paint), { passive: true });
+  paint();
+</script>
+
+<style>
+  .testimonials {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--sp-content);
+  }
+
+  .testimonials :global(.bg-media) { filter: grayscale(1); }
+
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(245, 245, 245, 0.86);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--sp-lg);
+    align-items: center;
+  }
+
+  .lede h2 { max-width: 19ch; }
+
+  .lede > p {
+    margin-top: var(--sp-paragraph);
+    max-width: 38ch;
+    font-size: var(--type-body-16);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .dial {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    margin-top: var(--sp-lg);
+  }
+
+  .arrow {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  .arrow:hover { background: rgba(48, 106, 255, 0.1); }
+
+  /* Progress dial: a blue arc over a grey ring, hollowed out with a mask so
+     the section background shows through the middle. */
+  .count {
+    display: grid;
+    place-items: center;
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color-accent) 0 25%, #d7d7d7 25% 100%);
+    /* Hollow the centre so only a ~5px ring remains, leaving the counter
+       legible on the section background rather than on a filled disc. */
+    -webkit-mask: radial-gradient(circle, transparent 53px, #000 54px);
+    mask: radial-gradient(circle, transparent 53px, #000 54px);
+  }
+
+  .current {
+    font-size: 2rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--black);
+  }
+
+  .total {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .rail {
+    display: flex;
+    gap: var(--sp-sm);
+    padding-block: var(--sp-sm);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .rail::-webkit-scrollbar { display: none; }
+
+  .card {
+    flex: 0 0 min(100%, 470px);
+    scroll-snap-align: start;
+    display: flex;
+    gap: var(--sp-sm);
+    padding: var(--sp-med);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  blockquote {
+    margin: var(--sp-sm) 0 0;
+    font-size: var(--type-body-16);
+    line-height: 1.5;
+    color: var(--black);
+  }
+
+  .name {
+    margin-top: var(--sp-sm);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .role {
+    margin-top: 4px;
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+  }
+
+  .card :global(.portrait) {
+    flex: none;
+    width: 132px;
+    min-height: 210px;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  @media (max-width: 900px) {
+    .inner { grid-template-columns: 1fr; }
+    .card { flex-direction: column; }
+    .card :global(.portrait) { width: 100%; min-height: 200px; }
+  }
+</style>

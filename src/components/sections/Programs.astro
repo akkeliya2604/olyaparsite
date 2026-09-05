@@ -1,0 +1,148 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import bg from "../../assets/principle-resilience.jpeg";
+
+const programs = [
+  {
+    label: "Free masterclass",
+    title: "The Race-Ready Mind",
+    body: "Learn why physical preparation alone does not guarantee a strong race—and how swimmers can build confidence, composure, focus, and resilience before the next important meet.",
+    cta: "Watch Free",
+    href: "#masterclass",
+    featured: false,
+  },
+  {
+    label: "Main program",
+    title: "The Race Ready Method",
+    body: "An eight-week self-paced program that helps swimmers train the mental side of performance through short lessons, practical exercises, visualization, and race-day routines.",
+    cta: "Explore the Method",
+    href: "#course",
+    featured: true,
+  },
+  {
+    label: "Individual session",
+    title: "Race Strategy Intensive",
+    body: "A focused 90-minute one-to-one session with Maya. Identify what is getting in the way of your performance and leave with a personalized mental race plan.",
+    cta: "Book an Intensive",
+    href: "#contact",
+    featured: false,
+  },
+];
+---
+
+<section class="programs band-dark">
+  <Image src={bg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" />
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="wrap inner">
+    <h2>Where to <em class="accent caps">start</em></h2>
+
+    <ul class="grid">
+      {programs.map(({ label, title, body, cta, href, featured }) => (
+        <li class:list={["card", featured && "card--featured"]}>
+          <p class="label">
+            {featured && (
+              <span class="tick" aria-hidden="true"></span>
+            )}
+            {label}
+            {featured && (
+              <span class="tick" aria-hidden="true"></span>
+            )}
+          </p>
+
+          <h3>{title}</h3>
+          <p class="body">{body}</p>
+
+          <Button href={href} size="sm" class="cta">{cta}</Button>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .programs {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--sp-content);
+  }
+
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.92) 100%);
+  }
+
+  .inner { position: relative; z-index: 2; }
+
+  h2 { text-align: center; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-sm);
+    margin-top: var(--sp-lg);
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-med) var(--sp-sm);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(48, 106, 255, 0.55);
+    border-radius: var(--radius-md);
+  }
+
+  /* The middle card is the primary offer, marked in the design by a blue
+     border and an outer glow rather than a different fill. */
+  .card--featured {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent), 0 0 34px rgba(48, 106, 255, 0.45);
+  }
+
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    color: var(--color-text-body);
+  }
+
+  .card--featured .label { border-color: var(--color-accent); }
+
+  .tick {
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    clip-path: polygon(0 60%, 38% 100%, 100% 12%, 82% 0, 36% 66%, 14% 46%);
+  }
+
+  .card h3 {
+    margin-top: var(--sp-sm);
+    text-transform: uppercase;
+  }
+
+  .body {
+    margin-top: var(--sp-paragraph);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  /* auto pushes every button to the card's bottom edge, so the three CTAs
+     share a baseline regardless of how long the copy above them runs. */
+  .card :global(.cta) { margin-top: auto; padding-top: var(--sp-med); }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

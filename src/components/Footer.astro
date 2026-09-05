@@ -1,19 +1,32 @@
 ---
-const year = new Date().getFullYear();
+import Logo from "./Logo.astro";
 
-// TODO(figma): replace with the real links from the contact frame.
-const contacts = [
-  { href: "mailto:hello@example.com", label: "Email" },
-  { href: "https://www.linkedin.com/", label: "LinkedIn" },
+// TODO(figma): the design shows three identical glyphs with no destinations,
+// which reads as placeholder. Real platforms and URLs needed before launch.
+const socials = [
+  { href: "#", label: "Instagram" },
+  { href: "#", label: "Social profile 2" },
+  { href: "#", label: "Social profile 3" },
 ];
 ---
 
-<footer class="site-footer">
+<footer class="site-footer" id="contact">
   <div class="wrap inner">
-    <p class="note">&copy; {year} Joe Goodreau</p>
-    <ul>
-      {contacts.map(({ href, label }) => (
-        <li><a href={href}>{label}</a></li>
+    <Logo size="sm" />
+
+    <p class="copyright">&copy; 2026</p>
+
+    <ul class="socials">
+      {socials.map(({ href, label }) => (
+        <li>
+          <a href={href} aria-label={label}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8" />
+              <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8" />
+              <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" />
+            </svg>
+          </a>
+        </li>
       ))}
     </ul>
   </div>
@@ -21,30 +34,39 @@ const contacts = [
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--color-border);
-    margin-top: var(--space-24);
-    padding-block: var(--space-8);
+    background: var(--navy);
+    color: var(--white);
+    padding-block: var(--sp-lg);
   }
 
   .inner {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4) var(--space-6);
     align-items: center;
     justify-content: space-between;
+    gap: var(--sp-med);
+    flex-wrap: wrap;
   }
 
-  .note {
-    color: var(--color-text-subtle);
-    font-size: var(--size-sm);
+  .copyright {
+    font-size: var(--type-body-16);
+    color: var(--mist);
   }
 
-  ul {
+  .socials {
     display: flex;
-    gap: var(--space-6);
+    gap: var(--sp-sm);
     list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: var(--size-sm);
   }
+
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--white);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  .socials a:hover { background: var(--color-accent); }
 </style>

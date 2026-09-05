@@ -1,0 +1,52 @@
+---
+interface Props {
+  href: string;
+  variant?: "solid" | "outline";
+  /** Renders the smaller pill used in the nav and inside cards. */
+  size?: "md" | "sm";
+  class?: string;
+}
+
+const { href, variant = "solid", size = "md", class: extra = "" } = Astro.props;
+---
+
+<a href={href} class:list={["btn", `btn--${variant}`, `btn--${size}`, extra]}>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-sm);
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .btn--md { padding: 14px var(--sp-med); font-size: var(--type-body-16); }
+  .btn--sm { padding: 10px var(--sp-sm); font-size: 0.875rem; }
+
+  .btn--solid {
+    background: var(--color-accent);
+    color: var(--white);
+    border: 1px solid var(--color-accent);
+  }
+  .btn--solid:hover { background: #1F52D8; border-color: #1F52D8; }
+
+  .btn--outline {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid currentColor;
+  }
+  .btn--outline:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+</style>

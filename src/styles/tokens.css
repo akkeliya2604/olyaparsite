@@ -1,125 +1,130 @@
 /* ============================================================================
-   DESIGN TOKENS
+   DESIGN TOKENS — pulled from the Figma file's variables, not eyeballed.
    ----------------------------------------------------------------------------
-   This file is the contract between the Figma file and the code.
+   Source: Figma "Project — Joe Goodreau (new site)" (spec work; the design
+   itself is branded "Maya Reynolds / Race Ready"). Values came from the
+   file's own variable collections via get_variable_defs, so Layer 1 below
+   matches Figma exactly.
 
-   It is deliberately structured the same way Figma organises variables, so the
-   two stay legible side by side:
+     Figma                          CSS
+     ---------------------------    ---------------------------------------
+     Colour variables           ->  Layer 1 (raw)
+     Text/* + semantic names    ->  Layer 2 (aliases with meaning)
+     Spacing/sp-*               ->  Layer 1 spacing scale
 
-     Figma                              CSS
-     ------------------------------     ---------------------------------------
-     Collection "Primitives"        ->  Layer 1 below (raw values)
-     Collection "Semantic"          ->  Layer 2 below (aliases w/ meaning)
-     Mode: Light / Dark             ->  Layer 3 below (mode overrides)
+   RULE: components use Layer 2 names only. A hardcoded #306AFF in a
+   component means a Figma change can no longer propagate here.
 
-   RULE: components only ever use Layer 2 names (--color-text, --space-4).
-   A component that hardcodes #1a1a1a or 24px is a bug -- it means the design
-   system has been bypassed and a Figma change can no longer propagate here.
-
-   Layer 1 values below are PLACEHOLDERS. They get replaced with the real
-   values pulled from the Figma file's variables. See docs/figma-to-web.md.
+   FONT SUBSTITUTION: the design specifies Graphik, a licensed Commercial
+   Type face that cannot be redistributed. Inter is substituted — closest
+   free neo-grotesque in proportion and colour. Barlow is the design's own
+   secondary face and is used as specified. See src/styles/fonts.css.
    ========================================================================= */
 
 :root {
-  /* --- Layer 1: primitives -------------------------------------------------
-     Raw values with no opinion about usage. Mirrors Figma's "Color/Gray/700"
-     style naming. Nothing outside this file should reference these directly. */
+  /* --- Layer 1: primitives (verbatim from Figma variables) ---------------- */
 
-  --gray-0:    #ffffff;
-  --gray-50:   #f7f7f8;
-  --gray-100:  #ededf0;
-  --gray-200:  #dcdce1;
-  --gray-400:  #9a9aa5;
-  --gray-600:  #5c5c68;
-  --gray-800:  #2a2a31;
-  --gray-900:  #17171c;
-  --gray-950:  #0d0d11;
+  --black:  #000000;   /* Figma: 000000 / Bg / Text-Titles */
+  --white:  #FFFFFF;   /* Figma: FFFFFF */
+  --silver: #F5F5F5;   /* Figma: F5F5F5 / Silver */
+  --mist:   #E0E0E0;   /* Figma: E0E0E0 / Text-body */
+  --stone:  #636464;   /* Figma: Stone */
+  --slate:  #5F5F5F;   /* Figma: 5F5F5F */
+  --blue:   #306AFF;   /* Figma: 306AFF — the single accent */
 
-  --accent-400: #7b8cff;
-  --accent-500: #4f63e8;
-  --accent-600: #3a4bc4;
+  /* Not a Figma variable: the footer plate reads as a very dark navy,
+     sampled from the design render. Kept here so it stays swappable. */
+  --navy:   #0B1420;
 
-  /* Type scale. Ratio ~1.25 (major third) -- the same scale should exist as
-     text styles in Figma. If Figma uses a different ratio, change it here. */
+  /* Spacing — Figma "Spacing/sp-*" collection, verbatim. */
+  --sp-paragraph: 15px;
+  --sp-sm:        20px;
+  --sp-med:       30px;
+  --sp-lg:        40px;
+  --sp-content:  120px;
+
+  /* Type families. --font-sans stands in for Graphik. */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  --font-alt:  "Barlow", var(--font-sans);
 
-  --size-xs:   0.8125rem;  /* 13px */
-  --size-sm:   0.9375rem;  /* 15px */
-  --size-base: 1.0625rem;  /* 17px */
-  --size-lg:   1.3125rem;  /* 21px */
-  --size-xl:   1.75rem;    /* 28px */
-  --size-2xl:  2.25rem;    /* 36px */
-  --size-3xl:  3rem;       /* 48px */
+  /* Type scale — Figma text styles. Desktop sizes are the design's exact
+     values; clamp() scales them down on narrow screens, since the source
+     design only defines a 1920px desktop layout. */
+  --type-h1:       clamp(2.5rem, 1.2rem + 4.2vw, 4.5rem);    /* 72px */
+  --type-h2:       clamp(1.75rem, 1.1rem + 2.1vw, 2.625rem); /* 42px */
+  --type-h4:       1.25rem;                                   /* 20px */
+  --type-subtitle: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);  /* 20px */
+  --type-alt-sub:  clamp(1.125rem, 1rem + 0.5vw, 1.5rem);    /* 24px, Barlow */
+  --type-body-18:  1.125rem;                                  /* 18px */
+  --type-body-16:  1rem;                                      /* 16px */
 
-  /* Spacing scale, 4px base. Matches an 8pt grid at even steps. */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-24: 6rem;
+  --lh-tight:  1.1;   /* H2, H4 */
+  --lh-snug:   1.2;   /* H1, body */
+  --lh-loose:  1.4;   /* subtitles */
 
-  --radius-sm: 4px;
-  --radius-md: 10px;
-  --radius-lg: 18px;
+  /* --- Layer 2: semantic aliases ----------------------------------------- */
 
-  /* --- Layer 2: semantic aliases ------------------------------------------
-     These carry MEANING, not appearance. This is the only layer components
-     are allowed to touch. Swapping a theme = repointing these aliases. */
+  /* Default context is the DARK sections (the design's Bg is #000000). */
+  --color-bg:            var(--black);
+  --color-text:          var(--white);
+  --color-text-body:     var(--mist);
+  --color-text-muted:    var(--stone);
+  --color-accent:        var(--blue);
+  --color-border:        rgba(255, 255, 255, 0.14);
+  --color-surface:       rgba(255, 255, 255, 0.04);
+  --color-focus:         var(--blue);
 
-  --color-bg:          var(--gray-0);
-  --color-surface:     var(--gray-50);
-  --color-border:      var(--gray-200);
-  --color-text:        var(--gray-900);
-  --color-text-muted:  var(--gray-600);
-  --color-text-subtle: var(--gray-400);
-  --color-accent:      var(--accent-500);
-  --color-accent-hover: var(--accent-600);
-  --color-focus:       var(--accent-500);
+  --content-width: 1260px;  /* measured from the 1920px design */
+  --prose-width: 46rem;
 
-  --content-width: 68rem;
-  --prose-width: 42rem;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
 
-  /* Motion. Respect the reduced-motion override at the bottom of global.css. */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-fast: 120ms;
-  --duration-base: 220ms;
+  --duration-fast: 140ms;
+  --duration-base: 260ms;
 }
 
-/* --- Layer 3: dark mode -----------------------------------------------------
-   Only Layer 2 aliases are repointed -- never Layer 1, and never a one-off
-   colour. This is exactly what switching a Figma variable Mode does.
+/* --- Section context switches -----------------------------------------------
+   The design alternates dark and light bands. Rather than every component
+   knowing which band it sits in, a section sets its context once and the
+   children read the same alias names. This is the CSS equivalent of a
+   Figma variable Mode. */
 
-   Two selectors on purpose:
-     - prefers-color-scheme: follows the OS when the user has not chosen
-     - [data-theme="dark"]:  wins when the user HAS chosen, in both directions */
+.band-light {
+  --color-bg:         var(--silver);
+  --color-text:       var(--black);
+  --color-text-body:  var(--slate);
+  --color-text-muted: var(--stone);
+  --color-border:     rgba(0, 0, 0, 0.10);
+  --color-surface:    var(--white);
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg:          var(--gray-950);
-    --color-surface:     var(--gray-900);
-    --color-border:      var(--gray-800);
-    --color-text:        var(--gray-50);
-    --color-text-muted:  var(--gray-400);
-    --color-text-subtle: var(--gray-600);
-    --color-accent:      var(--accent-400);
-    --color-accent-hover: var(--gray-0);
-    --color-focus:       var(--accent-400);
-  }
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
-:root[data-theme="dark"] {
-  --color-bg:          var(--gray-950);
-  --color-surface:     var(--gray-900);
-  --color-border:      var(--gray-800);
-  --color-text:        var(--gray-50);
-  --color-text-muted:  var(--gray-400);
-  --color-text-subtle: var(--gray-600);
-  --color-accent:      var(--accent-400);
-  --color-accent-hover: var(--gray-0);
-  --color-focus:       var(--accent-400);
+.band-dark {
+  --color-bg:         var(--black);
+  --color-text:       var(--white);
+  --color-text-body:  var(--mist);
+  --color-text-muted: var(--stone);
+  --color-border:     rgba(255, 255, 255, 0.14);
+  --color-surface:    rgba(255, 255, 255, 0.04);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.band-white {
+  --color-bg:         var(--white);
+  --color-text:       var(--black);
+  --color-text-body:  var(--slate);
+  --color-text-muted: var(--stone);
+  --color-border:     rgba(0, 0, 0, 0.10);
+  --color-surface:    var(--silver);
+
+  background: var(--color-bg);
+  color: var(--color-text);
 }

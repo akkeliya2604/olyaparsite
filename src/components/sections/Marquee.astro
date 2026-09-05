@@ -1,0 +1,74 @@
+---
+const items = [
+  "Mental performance for competitive swimmers",
+  "Race-day routines that work under pressure",
+  "Built for age-group through college athletes",
+  "Support for swimmers, parents, and teams",
+  "Created by Maya Reynolds",
+];
+
+// Duplicated once so the translation can loop seamlessly. The copy is
+// aria-hidden so the list is announced a single time.
+---
+
+<div class="marquee band-dark">
+  <div class="track">
+    <ul class="row">
+      {items.map((t) => <li>{t}</li>)}
+    </ul>
+    <ul class="row" aria-hidden="true">
+      {items.map((t) => <li>{t}</li>)}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding-block: var(--sp-sm);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: scroll 42s linear infinite;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+
+  .row li {
+    display: flex;
+    align-items: center;
+    padding-inline: var(--sp-med);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  /* Blue tick between items, matching the design's separator mark. */
+  .row li::after {
+    content: "";
+    width: 9px;
+    height: 9px;
+    margin-left: calc(var(--sp-med) * 2);
+    background: var(--color-accent);
+    clip-path: polygon(0 60%, 38% 100%, 100% 12%, 82% 0, 36% 66%, 14% 46%);
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* A continuously moving strip is a vestibular trigger; stop it outright. */
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; }
+    .marquee { overflow-x: auto; }
+  }
+</style>

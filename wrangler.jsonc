@@ -5,8 +5,8 @@
 
   // IMPORTANT: this must match the Worker name in the Cloudflare dashboard,
   // or Workers Builds will fail. It also decides the URL:
-  //   https://joe-goodreau-site.<your-subdomain>.workers.dev
-  "name": "joe-goodreau-site",
+  //   https://race-ready-site.<your-subdomain>.workers.dev
+  "name": "race-ready-site",
 
   // Pins the Workers runtime API behaviour to this date. Bump deliberately, not casually.
   "compatibility_date": "2026-09-03",

@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import Header from "../Header.astro";
+import Button from "../Button.astro";
+import heroBg from "../../assets/hero-bg.png";
+---
+
+<section class="hero band-dark" id="top">
+  <Image
+    src={heroBg}
+    alt=""
+    class="bg-media"
+    widths={[900, 1440, 1920]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="scrim" aria-hidden="true"></div>
+
+  <Header />
+
+  <div class="wrap content">
+    <h1>
+      Swim the <em class="accent">race</em><br />
+      you <em class="accent">trained for</em>
+    </h1>
+
+    <p class="subtitle">
+      Race Ready mental performance training helps competitive swimmers build
+      the confidence, composure, and focus to perform when the clock starts.
+    </p>
+
+    <p class="eyebrow">For competitive swimmers, from age-group through college.</p>
+
+    <div class="actions">
+      <Button href="#masterclass">Watch the Free Masterclass</Button>
+      <Button href="#course" variant="outline">Explore the Race Ready Method</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(88vh, 820px);
+    padding-block: calc(var(--sp-content) * 1.15) var(--sp-content);
+    overflow: hidden;
+  }
+
+  /* Left-weighted scrim: the headline sits on the left over a busy photo, so
+     contrast has to be created rather than hoped for. */
+  .scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 38%, rgba(0,0,0,0.15) 78%),
+      linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 45%);
+  }
+
+  .content { position: relative; z-index: 2; }
+
+  h1 {
+    text-transform: uppercase;
+    max-width: 16ch;
+  }
+
+  .subtitle {
+    max-width: 52ch;
+    margin-top: var(--sp-med);
+    font-size: var(--type-subtitle);
+    line-height: var(--lh-loose);
+    color: var(--color-text-body);
+  }
+
+  .eyebrow {
+    margin-top: var(--sp-lg);
+    font-size: var(--type-body-16);
+    color: var(--color-text-body);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-sm);
+    margin-top: var(--sp-med);
+  }
+</style>

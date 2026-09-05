@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import portrait from "../../assets/maya-portrait.png";
+---
+
+<section class="band-light section" id="work-with-maya">
+  <div class="wrap grid">
+    <figure class="media">
+      <Image
+        src={portrait}
+        alt="Maya Reynolds standing beside a pool, holding a stopwatch"
+        widths={[420, 508]}
+        sizes="(max-width: 900px) 100vw, 420px"
+      />
+    </figure>
+
+    <div class="copy">
+      <h2>Meet <em class="accent caps">Maya Reynolds</em></h2>
+
+      <p>
+        I know what it feels like to be physically prepared and still struggle
+        to show it when the result matters most. As a competitive swimmer, I
+        learned that racing well requires more than fitness, technique, and a
+        perfectly planned taper. It requires the ability to manage pressure,
+        trust your preparation, and stay present when the clock starts.
+      </p>
+
+      <p>
+        That experience led me to mental performance coaching. Today, I help
+        competitive swimmers develop practical skills for confidence, focus,
+        composure, and resilience. Race Ready is not about eliminating nerves
+        or forcing positive thoughts. It is about giving athletes a system they
+        can rely on through demanding practices, difficult results, and
+        high-pressure meets.
+      </p>
+
+      <Button href="#about" class="cta">Read Maya&rsquo;s Story</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--sp-content);
+    align-items: center;
+  }
+
+  .media { margin: 0; }
+
+  .media :global(img) {
+    width: 100%;
+    border-radius: var(--radius-lg);
+  }
+
+  .copy p {
+    margin-top: var(--sp-paragraph);
+    max-width: 52ch;
+    font-size: var(--type-body-16);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .copy p:first-of-type { margin-top: var(--sp-med); }
+
+  .copy :global(.cta) { margin-top: var(--sp-med); }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+  }
+</style>

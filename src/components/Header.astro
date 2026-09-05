@@ -1,77 +1,133 @@
 ---
-const links = [
-  { href: "/work/", label: "Work" },
-  { href: "/about/", label: "About" },
-];
+import Logo from "./Logo.astro";
+import Button from "./Button.astro";
 
-// Normalise to a trailing slash so /work and /work/ both mark the tab active.
-const here = Astro.url.pathname.replace(/\/?$/, "/");
+const links = [
+  { href: "#top", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#course", label: "Course" },
+  { href: "#work-with-maya", label: "Work With Maya" },
+  { href: "#contact", label: "Contact" },
+];
 ---
 
 <header class="site-header">
   <div class="wrap bar">
-    <a href="/" class="brand" aria-label="Joe Goodreau, home">Joe&nbsp;Goodreau</a>
+    <Logo />
 
-    <nav aria-label="Main">
+    <nav id="site-nav" aria-label="Main">
       <ul>
         {links.map(({ href, label }) => (
-          <li>
-            <a href={href} aria-current={here.startsWith(href) ? "page" : undefined}>
-              {label}
-            </a>
-          </li>
+          <li><a href={href}>{label}</a></li>
         ))}
       </ul>
     </nav>
+
+    <Button href="#masterclass" size="sm" class="cta">Free Masterclass</Button>
+
+    <button
+      type="button"
+      class="toggle"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Menu"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
   </div>
 </header>
 
+<script>
+  // The design is desktop-only; this is the minimum needed to keep the nav
+  // usable below 900px. aria-expanded is the single source of truth for state.
+  const toggle = document.querySelector<HTMLButtonElement>(".toggle");
+  const header = document.querySelector<HTMLElement>(".site-header");
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    header?.classList.toggle("is-open", !open);
+  });
+
+  // Close after following an in-page link, or the panel covers the target.
+  document.querySelectorAll("#site-nav a").forEach((a) =>
+    a.addEventListener("click", () => {
+      toggle?.setAttribute("aria-expanded", "false");
+      header?.classList.remove("is-open");
+    })
+  );
+</script>
+
 <style>
   .site-header {
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 20;
+    padding-block: var(--sp-med);
+    color: var(--white);
   }
 
   .bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-    min-height: 4rem;
+    gap: var(--sp-lg);
   }
 
-  .brand {
-    font-weight: 600;
-    color: var(--color-text);
-    text-decoration: none;
-    letter-spacing: -0.01em;
-  }
+  nav { margin-inline: auto; }
 
   nav ul {
     display: flex;
-    gap: var(--space-6);
+    gap: var(--sp-med);
     list-style: none;
-    margin: 0;
-    padding: 0;
   }
 
   nav a {
-    color: var(--color-text-muted);
+    font-size: 0.875rem;
     text-decoration: none;
-    font-size: var(--size-sm);
+    opacity: 0.85;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  nav a:hover { opacity: 1; }
+
+  .toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
   }
 
-  nav a:hover,
-  nav a[aria-current="page"] {
-    color: var(--color-text);
+  .toggle span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--duration-fast) var(--ease-out);
   }
 
-  /* Underline the current page so it is not signalled by colour alone. */
-  nav a[aria-current="page"] {
-    text-decoration: underline;
-    text-underline-offset: 0.4em;
+  @media (max-width: 900px) {
+    .bar { flex-wrap: wrap; }
+    .toggle { display: flex; margin-left: auto; }
+    .cta { display: none; }
+
+    nav {
+      order: 3;
+      flex-basis: 100%;
+      margin-inline: 0;
+      display: none;
+    }
+
+    :global(.site-header.is-open) nav { display: block; }
+
+    nav ul {
+      flex-direction: column;
+      gap: var(--sp-sm);
+      padding-block: var(--sp-sm);
+    }
   }
 </style>

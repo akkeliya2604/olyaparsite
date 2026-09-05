@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import bg from "../../assets/underwater-dive.png";
+
+/**
+ * TODO(figma): this section reads "Competitive Soccer Players" in the design
+ * while the entire rest of the page is about swimming — and the frame's own
+ * source images include a soccer team photo. It is leftover template copy.
+ * Built as designed so the implementation matches the file; fix in Figma and
+ * this block becomes a two-word change.
+ */
+---
+
+<section class="masterclass band-dark" id="masterclass">
+  <Image src={bg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" />
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="wrap inner">
+    <h2>
+      The Mental <em class="accent">Game Blueprint</em><br />
+      for Competitive Soccer Players
+    </h2>
+
+    <p>
+      A free training for athletes and parents. Learn why talent alone is not
+      enough, and how competitive soccer players build confidence, composure,
+      focus, and resilience with a simple mental performance system.
+    </p>
+
+    <Button href="#contact">Send Me the Free Masterclass</Button>
+  </div>
+</section>
+
+<style>
+  .masterclass {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: calc(var(--sp-content) * 0.75);
+  }
+
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.66) 46%, rgba(0,0,0,0.1) 100%);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 2;
+    max-width: 60ch;
+  }
+
+  h2 { font-size: var(--type-h2); }
+
+  .inner p {
+    margin-block: var(--sp-paragraph) var(--sp-med);
+    max-width: 52ch;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+</style>

@@ -62,7 +62,7 @@ This creates the Worker, which must exist before a repo can be attached to it.
 npm run deploy
 ```
 
-Wrangler prints the live URL: `https://joe-goodreau-site.<subdomain>.workers.dev`
+Wrangler prints the live URL: `https://race-ready-site.<subdomain>.workers.dev`
 
 ### 3. Push the repo to GitHub
 
@@ -77,7 +77,7 @@ git push -u origin main
 ### 4. Connect the repo for automatic deploys
 
 In **Olya's** Cloudflare dashboard:
-**Workers & Pages → `joe-goodreau-site` → Settings → Builds → Connect**
+**Workers & Pages → `race-ready-site` → Settings → Builds → Connect**
 
 | Setting | Value |
 |---|---|

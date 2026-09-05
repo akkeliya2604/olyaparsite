@@ -1,0 +1,103 @@
+---
+/**
+ * TODO(figma): every accordion is collapsed in the design, so no answer copy
+ * exists in the file. Questions are verbatim; answers are placeholders and
+ * must be written before launch.
+ *
+ * Built on <details>/<summary>, which gives keyboard operation, screen-reader
+ * expanded/collapsed state, and find-in-page for free — no JavaScript.
+ */
+const faqs = [
+  "Is this only for swimmers who are struggling?",
+  "How much time does the program usually take?",
+  "Will this help with pre-race nerves?",
+  "Is this only for elite swimmers?",
+  "How is this different from motivational coaching?",
+  "What if my swimmer does not like talking about mindset?",
+];
+---
+
+<section class="band-light section">
+  <div class="wrap">
+    <h2><em class="accent">Questions</em> swimmers and parents <em class="accent">ask</em></h2>
+
+    <div class="grid">
+      {faqs.map((q) => (
+        <details class="item">
+          <summary>
+            <span>{q}</span>
+            <span class="sign" aria-hidden="true"></span>
+          </summary>
+          <div class="answer">
+            <p>Answer to be supplied.</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  h2 { text-align: center; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-paragraph);
+    margin-top: var(--sp-lg);
+  }
+
+  .item {
+    background: var(--white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-med);
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--black);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  /* A plus that becomes a minus, drawn from two bars so it needs no icon. */
+  .sign {
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+  }
+
+  .sign::before,
+  .sign::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.6px;
+    background: var(--black);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .sign::after { transform: rotate(90deg); }
+
+  .item[open] .sign::after { transform: rotate(0deg); }
+
+  .answer {
+    padding: 0 var(--sp-med) var(--sp-sm);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

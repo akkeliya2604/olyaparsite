@@ -1,0 +1,128 @@
+---
+import { Image } from "astro:assets";
+import swimmer from "../../assets/underwater-swimmer.png";
+
+const groups = [
+  {
+    label: "Primary:",
+    body: "Competitive age-group and high-school swimmers working toward qualifying times, championship meets, and national-level goals.",
+  },
+  {
+    label: "Also:",
+    body: "Younger competitive swimmers building confidence, focus, and healthy performance habits early.",
+  },
+  {
+    label: "And:",
+    body: "College swimmers who want to perform more consistently under pressure and take greater ownership of their preparation.",
+  },
+];
+---
+
+<section class="band-light audience">
+  <div class="wrap grid">
+    <div class="copy">
+      <h2>Built for competitive swimmers</h2>
+
+      <dl class="groups">
+        {groups.map(({ label, body }) => (
+          <div class="group">
+            <dt>{label}</dt>
+            <dd>{body}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <aside class="parents">
+        <p class="parents-label">Parents:</p>
+        <p>
+          Race Ready gives your swimmer practical tools for handling pressure
+          and gives you a clearer way to support long-term development without
+          making every result feel bigger than it needs to be.
+        </p>
+      </aside>
+    </div>
+
+    <figure class="media">
+      <span class="watermark" aria-hidden="true">MR</span>
+      <Image src={swimmer} alt="A swimmer mid-stroke underwater" widths={[520, 900]} sizes="(max-width: 900px) 100vw, 520px" />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .audience { padding-bottom: var(--sp-content); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--sp-lg);
+    align-items: center;
+  }
+
+  .groups { margin-top: var(--sp-med); }
+
+  .group + .group { margin-top: var(--sp-sm); }
+
+  dt {
+    font-weight: 700;
+    font-size: var(--type-body-16);
+    color: var(--color-accent);
+  }
+
+  dd {
+    margin: 6px 0 0;
+    font-size: var(--type-body-16);
+    line-height: 1.5;
+    color: var(--color-text-body);
+    max-width: 58ch;
+  }
+
+  .parents {
+    display: flex;
+    gap: var(--sp-sm);
+    margin-top: var(--sp-lg);
+    padding: var(--sp-sm) var(--sp-med);
+    background: #E7ECFB;
+    border-radius: var(--radius-lg);
+    max-width: 56ch;
+  }
+
+  .parents-label {
+    flex: none;
+    font-weight: 700;
+    font-size: var(--type-body-16);
+    text-transform: uppercase;
+    color: var(--black);
+  }
+
+  .parents p:last-child {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .media {
+    position: relative;
+    margin: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .watermark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: clamp(8rem, 22vw, 18rem);
+    font-weight: 700;
+    letter-spacing: -0.08em;
+    color: rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+  }
+
+  .media :global(img) { position: relative; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

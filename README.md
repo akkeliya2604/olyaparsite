@@ -1,9 +1,14 @@
-# Joe Goodreau — site
+# Race Ready — Maya Reynolds
 
 Astro static site, built from a Figma design, deployed to Cloudflare Workers.
 
-> Built from the Figma file *Project — Joe Goodreau (new site)*. All page copy
-> is placeholder until the corresponding frame is implemented.
+> **Spec work.** Built from the Figma file *Project — Joe Goodreau (new site)*,
+> whose contents are branded "Maya Reynolds / Race Ready". Not a real business;
+> deployed under a neutral Worker name (`race-ready-site`).
+>
+> The design specifies **Graphik**, a licensed Commercial Type face that cannot
+> be redistributed. **Inter** is substituted throughout; Barlow is the design's
+> own secondary face and is used as specified. See `src/styles/fonts.css`.
 
 ## Quick start
 
@@ -41,39 +46,26 @@ change routing, verify with `npm run cf:preview`.
 
 ```
 src/
-├── styles/tokens.css   Design tokens — the contract with Figma. Start here.
-├── styles/global.css   Reset + element defaults
-├── layouts/            Page shells
-├── components/         Reusable pieces
-├── content/work/       Case studies, one Markdown file each
-├── content.config.ts   Schema for the above, enforced at build time
-└── pages/              File-based routes
-public/                 Copied verbatim (SVG icons, fonts, favicon)
-scripts/cf.mjs          Wrangler wrapper -- pins Cloudflare creds to this repo
+├── styles/tokens.css       Design tokens, taken from the Figma variables. Start here.
+├── styles/fonts.css        Self-hosted @font-face rules (generated)
+├── styles/global.css       Reset + element defaults
+├── layouts/BaseLayout.astro
+├── components/             Logo, Button, Header, Footer
+├── components/sections/    One component per band of the page
+└── pages/index.astro       Assembles the sections in order
+public/fonts/               Self-hosted woff2 (latin subsets)
+src/assets/                 Images from Figma, optimised by Astro at build
+scripts/cf.mjs              Wrangler wrapper -- pins Cloudflare creds to this repo
 ```
 
-## Adding a case study
+## Editing content
 
-Create `src/content/work/my-project.md`:
+Copy lives inside each section component in `src/components/sections/`, as plain
+arrays or markup. There is no CMS and no content collection -- the page is a
+single marketing layout, so the copy sits next to the markup that renders it.
 
-```markdown
----
-title: "Project name"
-summary: "One sentence on the outcome."
-role: "Product Designer"
-year: 2025
-tags: ["Research", "Prototyping"]
-order: 1
-draft: false
----
-
-## Context
-...
-```
-
-It appears at `/work/my-project/` automatically. `order` sorts the index (lower
-first); `draft: true` keeps it out of the build. A missing or wrong-typed field
-fails `npm test` rather than shipping broken.
+Search for `TODO(figma)` for the places where the design was incomplete,
+ambiguous, or contradictory.
 
 ## Docs
 

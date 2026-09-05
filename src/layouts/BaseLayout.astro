@@ -1,24 +1,16 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
 interface Props {
   title: string;
   description?: string;
-  /** Set true on the homepage so the tab reads "Joe Goodreau" not "Home | Joe Goodreau". */
-  bareTitle?: boolean;
 }
 
 const {
   title,
-  // TODO(figma): real description comes from the design's meta/hero copy.
-  description = "Placeholder description — replace from the Figma design.",
-  bareTitle = false,
+  description = "Race Ready mental performance training helps competitive swimmers build the confidence, composure, and focus to perform when the clock starts.",
 } = Astro.props;
 
-const siteName = "Joe Goodreau";
-const fullTitle = bareTitle ? title : `${title} | ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "http://localhost:4321");
 ---
 
@@ -27,29 +19,28 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "http://localhost:43
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{fullTitle}</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    <!-- Self-hosted, so preload rather than preconnect to a CDN. Only the two
+         faces used above the fold are worth preloading. -->
+    <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={siteName} />
-    <meta property="og:title" content={fullTitle} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
-
-    <!-- Tells the browser to render form controls and scrollbars in the
-         matching theme, so dark mode does not get light-mode widgets. -->
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="dark light" />
   </head>
 
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
-    <main id="main" tabindex="-1">
+    <main id="main">
       <slot />
     </main>
-    <Footer />
   </body>
 </html>

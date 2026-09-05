@@ -1,62 +1,37 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ProjectCard from "../components/ProjectCard.astro";
+import Footer from "../components/Footer.astro";
 
-const projects = (await getCollection("work", ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+import Hero from "../components/sections/Hero.astro";
+import Marquee from "../components/sections/Marquee.astro";
+import ProblemSection from "../components/sections/ProblemSection.astro";
+import AudienceSection from "../components/sections/AudienceSection.astro";
+import Principles from "../components/sections/Principles.astro";
+import StatementBand from "../components/sections/StatementBand.astro";
+import MeetMaya from "../components/sections/MeetMaya.astro";
+import Testimonials from "../components/sections/Testimonials.astro";
+import Programs from "../components/sections/Programs.astro";
+import PathSteps from "../components/sections/PathSteps.astro";
+import MasterclassBand from "../components/sections/MasterclassBand.astro";
+import Faq from "../components/sections/Faq.astro";
+import InstagramStrip from "../components/sections/InstagramStrip.astro";
+import FinalCta from "../components/sections/FinalCta.astro";
 ---
 
-<BaseLayout title="Joe Goodreau" bareTitle>
-  <section class="wrap hero">
-    <!-- TODO(figma): every string on this page is a placeholder. Replace
-         with the real copy from the Figma hero frame. Do not invent copy. -->
-    <h1>Placeholder headline</h1>
-    <p class="lede">
-      Placeholder supporting copy. This page is scaffolding only — the real
-      structure and text come from the Figma design.
-    </p>
-    <p><a href="/work/">Placeholder link &rarr;</a></p>
-  </section>
-
-  <section class="wrap">
-    <h2 class="section-title">Placeholder section</h2>
-    <div class="grid">
-      {projects.map((p) => (
-        <ProjectCard
-          href={`/work/${p.id}/`}
-          title={p.data.title}
-          summary={p.data.summary}
-          role={p.data.role}
-          year={p.data.year}
-          tags={p.data.tags}
-        />
-      ))}
-    </div>
-  </section>
+<BaseLayout title="Maya Reynolds — Race Ready mental performance for swimmers">
+  <Hero />
+  <Marquee />
+  <ProblemSection />
+  <AudienceSection />
+  <Principles />
+  <StatementBand />
+  <MeetMaya />
+  <Testimonials />
+  <Programs />
+  <PathSteps />
+  <MasterclassBand />
+  <Faq />
+  <InstagramStrip />
+  <FinalCta />
+  <Footer />
 </BaseLayout>
-
-<style>
-  .hero {
-    padding-block: var(--space-24) var(--space-16);
-    max-width: var(--prose-width);
-    margin-inline: auto;
-  }
-
-  .lede {
-    margin-block: var(--space-6);
-    font-size: var(--size-lg);
-    color: var(--color-text-muted);
-  }
-
-  .section-title {
-    margin-bottom: var(--space-8);
-  }
-
-  .grid {
-    display: grid;
-    gap: var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  }
-</style>

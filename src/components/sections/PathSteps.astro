@@ -1,0 +1,135 @@
+---
+import { Image } from "astro:assets";
+import understand from "../../assets/principle-mindset.jpeg";
+import train from "../../assets/principle-composure.jpeg";
+import personalize from "../../assets/principle-focus.png";
+
+const steps = [
+  {
+    n: "1",
+    title: "Understand",
+    body: "Watch the free masterclass and identify where pressure, doubt, or distraction is affecting your performance.",
+    img: understand,
+  },
+  {
+    n: "2",
+    title: "Train",
+    body: "Build your foundation with the Race Ready Method and practice the eight mental skills week by week.",
+    img: train,
+  },
+  {
+    n: "3",
+    title: "Personalize",
+    body: "Go deeper through a Race Strategy Intensive, ongoing coaching, or a team program with Maya.",
+    img: personalize,
+  },
+];
+---
+
+<section class="band-light section path">
+  <div class="wrap grid">
+    <h2>Your <em class="accent caps">Race-Ready path</em></h2>
+
+    <ol class="steps">
+      {steps.map(({ n, title, body, img }) => (
+        <li class="step">
+          <div class="thumb">
+            <Image src={img} alt="" widths={[300, 600]} sizes="(max-width: 900px) 100vw, 300px" />
+            <span class="numeral" aria-hidden="true">{n}</span>
+          </div>
+
+          <h3>{title}</h3>
+          <p>{body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-content);
+    align-items: start;
+  }
+
+  .steps {
+    position: relative;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-lg);
+    padding-left: var(--sp-med);
+  }
+
+  /* The vertical rule the step dots sit on. */
+  .steps::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  .step { position: relative; }
+
+  .step::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--sp-med) * -1);
+    top: 34px;
+    width: 9px;
+    height: 9px;
+    transform: translateX(-4px);
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .thumb {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 300 / 84;
+    background: var(--black);
+  }
+
+  .thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .numeral {
+    position: absolute;
+    left: var(--sp-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1;
+  }
+
+  .step h3 {
+    margin-top: var(--sp-paragraph);
+    text-transform: uppercase;
+  }
+
+  .step p {
+    margin-top: 8px;
+    max-width: 44ch;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+  }
+</style>

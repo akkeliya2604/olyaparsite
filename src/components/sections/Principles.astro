@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets";
+import mindset from "../../assets/principle-mindset.jpeg";
+import focus from "../../assets/principle-focus.png";
+import composure from "../../assets/principle-composure.jpeg";
+import visualization from "../../assets/principle-visualization.png";
+import routines from "../../assets/principle-routines.png";
+import resilience from "../../assets/principle-resilience.jpeg";
+
+const principles = [
+  { title: "Mindset", body: "Choose the response that moves you forward.", img: mindset },
+  { title: "Focus", body: "Stay with the next length, stroke, and cue.", img: focus },
+  { title: "Composure", body: "Manage pressure without losing your race.", img: composure },
+  { title: "Visualization", body: "Rehearse the performance before stepping onto the block.", img: visualization },
+  { title: "Routines", body: "Build reliable habits before, during, and after competition.", img: routines },
+  { title: "Resilience", body: "Reset after a difficult swim and return ready.", img: resilience },
+];
+---
+
+<section class="band-dark section" id="course">
+  <div class="wrap">
+    <h2 class="heading">
+      <em class="accent caps">Six principles</em> one Race-Ready system
+    </h2>
+
+    <p class="subtitle">
+      The Race Ready Method trains six mental performance principles swimmers
+      can use before, during, and after competition. Practical skills, built
+      through repetition&mdash;just like physical training.
+    </p>
+
+    <ul class="grid">
+      {principles.map(({ title, body, img }) => (
+        <li class="card">
+          <Image src={img} alt="" class="card-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" />
+          <div class="card-body">
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .heading { text-align: center; }
+
+  .subtitle {
+    max-width: 62ch;
+    margin: var(--sp-sm) auto 0;
+    text-align: center;
+    font-size: var(--type-body-16);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-sm);
+    margin-top: var(--sp-lg);
+    list-style: none;
+  }
+
+  .card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: 128px;
+    padding: var(--sp-paragraph) var(--sp-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  /* The photo occupies the right of the card and dissolves to the left, so
+     the label sits on flat black rather than on image detail. */
+  .card :global(.card-img) {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 68%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: grayscale(1);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, #000 26%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.25) 100%);
+  }
+
+  .card h3 { text-transform: uppercase; }
+
+  .card p {
+    margin-top: 6px;
+    max-width: 28ch;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-body);
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  @media (min-width: 601px) and (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
