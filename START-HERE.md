@@ -122,10 +122,28 @@ npm run dev
 
 Then open **<http://localhost:4321>** in your browser.
 
-Leave this running while you work. Every time you save a file, the browser
-updates by itself.
+Every time you save a file, the browser updates by itself.
 
-To stop it, click the terminal and press **Ctrl+C**.
+The command finishes and gives you your prompt back straight away. **That is
+normal** — the server keeps running in the background, so you can carry on using
+the same terminal. Because of that, Ctrl+C does *not* stop it. Use:
+
+```bash
+npx astro dev stop
+```
+
+Two others that are occasionally handy:
+
+```bash
+npx astro dev status
+```
+
+```bash
+npx astro dev logs
+```
+
+`status` tells you whether it is running and on which address; `logs` shows what
+it printed, which is where errors appear if a page goes blank.
 
 ### Change some words
 
@@ -219,9 +237,13 @@ git restore .
 Cloudflare dashboard → **race-ready-site** → **Deployments** → find the last
 good one → **Rollback**. Immediate, and it needs no code changes.
 
-### The dev server will not start
+### The dev server will not start, or the page will not load
 
-Stop it with Ctrl+C, then:
+Stop it, reinstall, start again:
+
+```bash
+npx astro dev stop
+```
 
 ```bash
 npm install
@@ -230,6 +252,9 @@ npm install
 ```bash
 npm run dev
 ```
+
+If it says the port is in use, an older copy is still running — `npx astro dev
+stop` clears it.
 
 ### Still stuck
 
