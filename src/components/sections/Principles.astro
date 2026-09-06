@@ -18,21 +18,25 @@ const principles = [
 ---
 
 <section class="band-dark section" id="course">
-  <div class="wrap">
-    <h2 class="heading">
-      <em class="accent caps">Six principles</em> one Race-Ready system
-    </h2>
+  <div class="wrap inner">
+    <div class="heading-block">
+      <h2 class="heading">
+        <em class="accent caps">Six principles</em> one Race-Ready system
+      </h2>
 
-    <p class="subtitle">
-      The Race Ready Method trains six mental performance principles swimmers
-      can use before, during, and after competition. Practical skills, built
-      through repetition&mdash;just like physical training.
-    </p>
+      <p class="subtitle">
+        The Race Ready Method trains six mental performance principles swimmers
+        can use before, during, and after competition. Practical skills, built
+        through repetition&mdash;just like physical training.
+      </p>
+    </div>
 
     <ul class="grid">
       {principles.map(({ title, body, img }) => (
         <li class="card">
-          <Image src={img} alt="" class="card-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" />
+          <div class="card-media" aria-hidden="true">
+            <Image src={img} alt="" class="card-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" />
+          </div>
           <div class="card-body">
             <h3>{title}</h3>
             <p>{body}</p>
@@ -44,22 +48,42 @@ const principles = [
 </section>
 
 <style>
-  .heading { text-align: center; }
+  section { height: var(--size-principles-height); }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-med);
+  }
+
+  .heading-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-sm);
+    width: var(--size-audience-copy);
+  }
+
+  .heading {
+    text-align: center;
+    white-space: nowrap;
+  }
 
   .subtitle {
-    max-width: 62ch;
-    margin: var(--sp-sm) auto 0;
+    width: 100%;
     text-align: center;
-    font-size: var(--type-body-16);
-    line-height: 1.5;
+    font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     color: var(--color-text-body);
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--sp-sm);
-    margin-top: var(--sp-lg);
+    column-gap: var(--sp-med);
+    row-gap: var(--sp-sm);
+    width: 100%;
     list-style: none;
   }
 
@@ -68,23 +92,59 @@ const principles = [
     isolation: isolate;
     display: flex;
     align-items: flex-end;
-    min-height: 168px;
-    padding: var(--sp-paragraph) var(--sp-sm);
-    border: 1px solid var(--color-border);
+    width: var(--size-principle-card-width);
+    height: var(--size-principle-card-height);
+    padding: var(--sp-sm);
+    border: var(--sp-hairline) solid var(--color-border-emphasis);
     border-radius: var(--radius-feature) var(--radius-feature) var(--radius-feature) 0;
+    overflow: hidden;
+    background: var(--color-surface-dark);
+    transition: border-color var(--duration-hover) var(--ease-linear);
+  }
+
+  .card-media {
+    position: absolute;
+    top: calc(var(--sp-hairline) * -1);
+    left: var(--pos-principle-media-left);
+    width: var(--size-principle-media-width);
+    height: 100%;
+    z-index: -2;
     overflow: hidden;
   }
 
-  /* The photo occupies the right of the card and dissolves to the left, so
-     the label sits on flat black rather than on image detail. */
   .card :global(.card-img) {
     position: absolute;
-    inset: 0 0 0 auto;
-    width: 73%;
+    inset: 0;
+    width: 100%;
     height: 100%;
+    max-width: none;
     object-fit: cover;
-    z-index: -2;
-    filter: grayscale(1);
+  }
+
+  .card:nth-child(1) :global(.card-img) {
+    top: -9.77%;
+    left: -3.42%;
+    width: 103.42%;
+    height: 119.54%;
+  }
+
+  .card:nth-child(4) :global(.card-img) {
+    left: -38.05%;
+    width: 138.11%;
+  }
+
+  .card:nth-child(6) :global(.card-img) {
+    left: -37.46%;
+    width: 137.32%;
+  }
+
+  .card-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, color-mix(in srgb, var(--color-overlay-base) 90%, transparent), transparent 60.096%),
+      linear-gradient(90deg, var(--color-overlay-base), transparent 30.792%);
   }
 
   .card::before {
@@ -92,24 +152,46 @@ const principles = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(90deg, var(--black) 0%, color-mix(in srgb, var(--black) 72%, transparent) 52%, transparent 100%);
+    background: var(--color-surface-dark);
+    mix-blend-mode: color;
+    transition: opacity var(--duration-hover) var(--ease-linear);
+  }
+
+  .card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .card:hover::before { opacity: 0; }
+
+  .card-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
+    width: 100%;
   }
 
   .card h3 {
-    font-size: var(--type-card-title);
+    font-size: var(--type-h4);
     text-transform: uppercase;
+    transition: color var(--duration-hover) var(--ease-linear);
   }
 
+  .card:hover h3 { color: var(--color-accent); }
+
   .card p {
-    margin-top: 6px;
-    max-width: 28ch;
-    font-size: 0.8125rem;
-    line-height: 1.45;
-    color: var(--color-text-body);
+    font-size: var(--type-body-16);
+    line-height: var(--lh-snug);
+    color: var(--color-copy-inverse);
   }
 
   @media (max-width: 900px) {
+    section { height: auto; }
     .grid { grid-template-columns: 1fr; }
+    .heading-block { width: 100%; }
+    .heading { white-space: normal; }
+    .card { width: 100%; }
   }
 
   @media (min-width: 601px) and (max-width: 900px) {

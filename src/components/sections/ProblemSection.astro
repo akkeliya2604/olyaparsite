@@ -1,25 +1,29 @@
 ---
 import { Image } from "astro:assets";
+import MotionMark from "../MotionMark.astro";
 import oldWay from "../../assets/problem-old-way.png";
 import raceReady from "../../assets/problem-race-ready.jpg";
-import raceReadyHover from "../../assets/problem-race-ready-hover.png";
 ---
 
-<section class="band-light section" id="about">
+<section class="band-light problem" id="about">
   <div class="wrap grid">
     <div class="copy">
-      <span class="tick" aria-hidden="true"></span>
-      <h2>Most swimmers train everything but the moment that decides the race</h2>
-      <p>You know your pace. You have done the sets. Your body is ready.</p>
-      <p>
-        But when the meet gets loud, the pressure builds, or the first split is
-        not what you expected, your mind can pull you away from the race you
-        trained to swim.
-      </p>
-      <p>
-        Physical preparation gets you to the block. Mental preparation helps you
-        trust your training when the moment arrives.
-      </p>
+      <div class="heading">
+        <MotionMark />
+        <h2>Most swimmers train everything but the moment that decides the race</h2>
+      </div>
+      <div class="body">
+        <p>You know your pace. You have done the sets. Your body is ready.</p>
+        <p>
+          But when the meet gets loud, the pressure builds, or the first split is
+          not what you expected, your mind can pull you away from the race you
+          trained to swim.
+        </p>
+        <p>
+          Physical preparation gets you to the block. Mental preparation helps you
+          trust your training when the moment arrives.
+        </p>
+      </div>
     </div>
 
     <div class="cards">
@@ -33,7 +37,6 @@ import raceReadyHover from "../../assets/problem-race-ready-hover.png";
 
       <article class="card card--accent">
         <Image src={raceReady} alt="" class="bg-media" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
-        <Image src={raceReadyHover} alt="" class="bg-media bg-media--hover" widths={[420, 700]} sizes="(max-width: 900px) 100vw, 420px" />
         <div class="card-body">
           <h3>The Race Ready way:</h3>
           <p>Train confidence, focus, and composure like any other performance skill.</p>
@@ -44,10 +47,15 @@ import raceReadyHover from "../../assets/problem-race-ready-hover.png";
 </section>
 
 <style>
+  .problem {
+    height: var(--size-problem-height);
+    padding-top: var(--sp-problem-top);
+  }
+
   .grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: var(--sp-content);
+    grid-template-columns: var(--size-problem-cards) var(--size-problem-copy);
+    justify-content: space-between;
     align-items: center;
   }
 
@@ -57,41 +65,58 @@ import raceReadyHover from "../../assets/problem-race-ready-hover.png";
     order: -1;
     display: flex;
     flex-direction: column;
-    gap: var(--sp-sm);
+    gap: var(--sp-problem-card);
   }
 
   .card {
     position: relative;
     isolation: isolate;
     display: flex;
-    align-items: flex-end;
-    min-height: 233px;
-    padding: var(--sp-sm);
-    border: 1px solid var(--color-border);
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--sp-problem-card-inner);
+    width: var(--size-problem-cards);
+    height: var(--size-problem-card-height);
+    padding: var(--sp-problem-card);
+    border: var(--sp-hairline) solid var(--color-border-subtle);
     border-radius: 0 var(--radius-feature) 0 0;
     overflow: hidden;
-    color: var(--black);
+    background: var(--color-surface-light);
+    color: var(--color-ink-default);
   }
 
-  /* Wash the photo out so the label stays readable without a heavy overlay. */
   .card :global(.bg-media) {
     opacity: 0.2;
-    transition: opacity var(--duration-base) var(--ease-out);
+    transition: opacity var(--duration-hover) var(--ease-linear);
   }
 
-  .card :global(.bg-media--hover) { opacity: 0; }
-
+  .card::before,
   .card::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(90deg, var(--black) 0%, transparent 100%);
     mix-blend-mode: color;
-    transition: background var(--duration-base) var(--ease-out);
+    pointer-events: none;
+    transition: opacity var(--duration-hover) var(--ease-linear);
   }
 
-  .card-body { position: relative; z-index: 2; }
+  .card::before {
+    background: linear-gradient(90deg, var(--color-overlay-base), transparent);
+  }
+
+  .card::after {
+    background: var(--color-surface-dark);
+    opacity: 0;
+  }
+
+  .card-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-problem-card-inner);
+  }
 
   .card h3 {
     text-transform: uppercase;
@@ -99,58 +124,79 @@ import raceReadyHover from "../../assets/problem-race-ready-hover.png";
   }
 
   .card p {
-    margin-top: var(--sp-paragraph);
     font-size: var(--type-body-16);
+    line-height: var(--lh-snug);
     color: var(--color-text-body);
-    max-width: 34ch;
+    transition: color var(--duration-hover) var(--ease-linear);
+  }
+
+  .card h3 { transition: color var(--duration-hover) var(--ease-linear); }
+
+  .card--old :global(.bg-media) {
+    inset: -68.66% auto auto 0.08%;
+    width: var(--size-problem-old-image-width);
+    height: var(--size-problem-old-image-height);
+    max-width: none;
   }
 
   .card--accent {
-    border-width: 0 0 0 2px;
+    border-width: 0 0 0 var(--sp-micro);
     border-color: var(--color-accent);
     border-radius: 0 0 var(--radius-feature) 0;
   }
   .card--accent h3 { color: var(--color-accent); }
 
   .card--old:hover :global(.bg-media) { opacity: 1; }
-  .card--old:hover::after { background: var(--black); }
-  .card--old:hover h3 { color: var(--white); }
-  .card--old:hover p { color: var(--color-text); }
+  .card--old:hover::before { opacity: 0; }
+  .card--old:hover::after { opacity: 1; }
+  .card--old:hover h3 { color: var(--color-ink-inverse); }
+  .card--old:hover p { color: var(--color-copy-inverse); }
 
-  .card--accent:hover :global(.bg-media:not(.bg-media--hover)) { opacity: 0; }
-  .card--accent:hover :global(.bg-media--hover) { opacity: 1; }
-  .card--accent:hover::after {
-    background: linear-gradient(0deg, color-mix(in srgb, var(--black) 80%, transparent), transparent 65%);
+  .card--accent:hover :global(.bg-media) { opacity: 1; }
+  .card--accent::after {
+    background: linear-gradient(0deg, color-mix(in srgb, var(--color-overlay-base) 80%, transparent), transparent);
     mix-blend-mode: normal;
   }
+  .card--accent:hover::before { opacity: 0; }
+  .card--accent:hover::after { opacity: 1; }
   .card--accent:hover h3,
-  .card--accent:hover p { color: var(--white); }
+  .card--accent:hover p { color: var(--color-ink-inverse); }
 
-  .tick {
-    display: block;
-    width: 14px;
-    height: 14px;
-    margin-bottom: var(--sp-sm);
-    background: var(--color-accent);
-    clip-path: polygon(0 60%, 38% 100%, 100% 12%, 82% 0, 36% 66%, 14% 46%);
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
   }
 
-  .copy h2 { max-width: 20ch; }
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-paragraph);
+  }
+
+  .body { display: flex; flex-direction: column; gap: var(--sp-paragraph); }
 
   .copy p {
-    margin-top: var(--sp-paragraph);
-    font-size: var(--type-body-16);
-    line-height: 1.55;
+    font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     color: var(--color-text-body);
-    max-width: 46ch;
   }
 
-  .copy p:first-of-type { margin-top: var(--sp-med); }
+  .body p + p { margin-top: var(--sp-hairline); }
 
   @media (max-width: 900px) {
+    .problem {
+      height: auto;
+      padding-block: var(--sp-footer);
+    }
+
     .grid {
       grid-template-columns: 1fr;
       gap: var(--sp-lg);
     }
+
+    .cards,
+    .card { width: 100%; }
   }
 </style>

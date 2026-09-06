@@ -33,7 +33,12 @@
   --blue:   #306AFF;   /* Figma: 306AFF — the single accent */
   --blue-action: #1B7ACD; /* Figma button fill */
   --blue-logo: #3065E9; /* Figma wordmark accent */
-  --ice: #E7ECFB;
+  --blue-hover: #4A7EFF;
+  --ice: #E6E9F1;
+  --ice-control: #EDF1F4;
+  --ink: #2D2D2D;
+  --ring: #AEADAD;
+  --counter-muted: #ACA6A6;
   --footer-navy: #0E1721;
   --footer-muted: #506174;
 
@@ -43,11 +48,36 @@
 
   /* Spacing — Figma "Spacing/sp-*" collection, verbatim. */
   --sp-paragraph: 15px;
+  --sp-hairline:   1px;
+  --sp-micro:      2px;
+  --sp-thick:      3px;
+  --sp-xxs:        5px;
+  --sp-xs:        10px;
+  --sp-quote:     12px;
   --sp-sm:        20px;
+  --sp-card:      25px;
+  --sp-marquee:   19px;
+  --sp-marquee-half-gap: 9.5px;
+  --sp-nav:       27px;
   --sp-med:       30px;
+  --sp-hero-copy: 37px;
   --sp-lg:        40px;
+  --sp-audience-block: 50px;
+  --sp-hero-stage: 70px;
+  --sp-hero-nav-gap: 123px;
+  --sp-testimonial: 53px;
+  --sp-carousel:  68px;
+  --sp-testimonials-top: 80px;
+  --sp-testimonial-inset: 31px;
+  --sp-testimonial-card-inner: 33px;
+  --sp-problem-card: 24.683px;
+  --sp-problem-card-inner: 12.341px;
+  --sp-problem-top: 95px;
+  --sp-statement-gap: 14.233px;
   --sp-content:  120px;
+  --sp-final:    150px;
   --sp-footer:    70px;
+  --sp-menu-lines: 5px;
 
   /* Type families. --font-sans stands in for Graphik. */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -64,10 +94,16 @@
   --type-alt-sub:  clamp(1.125rem, 1rem + 0.5vw, 1.5rem);    /* 24px, Barlow */
   --type-body-18:  1.125rem;                                  /* 18px */
   --type-body-16:  1rem;                                      /* 16px */
+  --type-statement-first: clamp(2rem, 1.1rem + 3vw, 3.5095rem); /* 56.152px */
+  --type-statement-second: clamp(2.5rem, 1rem + 5vw, 5.0387rem); /* 80.619px */
+  --type-counter-current: 86.1px;
+  --type-counter-total: 25px;
+  --type-step-number: 62px;
 
   --lh-tight:  1.1;   /* H2, H4 */
   --lh-snug:   1.2;   /* H1, body */
   --lh-loose:  1.4;   /* subtitles */
+  --tracking-marquee: 0.8px;
 
   /* --- Layer 2: semantic aliases ----------------------------------------- */
 
@@ -81,28 +117,209 @@
   --color-surface:       rgba(255, 255, 255, 0.04);
   --color-focus:         var(--blue);
   --color-action:         var(--blue-action);
+  --color-action-hover:   var(--blue-hover);
   --color-brand-detail:   var(--blue-logo);
   --color-surface-tint:   var(--ice);
+  --color-control-tint:   var(--ice-control);
+  --color-text-strong:    var(--ink);
+  --color-ring:           var(--ring);
+  --color-counter-muted:  var(--counter-muted);
   --color-footer:         var(--footer-navy);
   --color-footer-muted:   var(--footer-muted);
+  --color-page-bg:        var(--black);
+  --color-ink-inverse:    var(--white);
+  --color-ink-default:    var(--black);
+  --color-copy-inverse:   var(--silver);
+  --color-surface-dark:   var(--black);
+  --color-surface-light:  var(--silver);
+  --color-surface-raised: var(--white);
+  --color-border-subtle:  var(--mist);
+  --color-border-emphasis: var(--stone);
+  --color-overlay-base:   var(--black);
+  --color-heading-muted:  var(--mist);
+  --color-button-glass:   rgb(6 24 45 / 20%);
+  --color-card-shadow:    rgb(0 0 0 / 25%);
+  --color-hero-overlay:   rgb(0 0 0 / 60%);
+  --color-image-wash:     rgb(255 255 255 / 80%);
+  --color-image-dim:      rgb(0 0 0 / 50%);
+  --color-image-dim-soft: rgb(0 0 0 / 40%);
+  --color-program-right:  rgb(255 255 255 / 35%);
+  --color-program-left:   rgb(255 255 255 / 60%);
+  --color-final-image:    rgb(255 255 255 / 30%);
   --color-overlay-strong: color-mix(in srgb, var(--black) 92%, transparent);
   --color-overlay-medium: color-mix(in srgb, var(--black) 72%, transparent);
   --color-overlay-soft:   color-mix(in srgb, var(--black) 15%, transparent);
-  --color-action-hover:   color-mix(in srgb, var(--blue-action) 82%, var(--black));
 
   --content-width: 1260px;  /* measured from the 1920px design */
   --prose-width: 46rem;
 
+  /* Exact component and section geometry from Home frame 117:5648. */
+  --size-logo-width: 189.597px;
+  --size-logo-height: 52px;
+  --size-logo-mark-width: 75.399px;
+  --size-logo-mark-height: 43.435px;
+  --size-logo-detail-width: 15.7px;
+  --size-logo-detail-height: 12.3px;
+  --size-logo-name-first: 19.495px;
+  --size-logo-name-second: 21.931px;
+  --pos-logo-mark-top: 8.064px;
+  --pos-logo-detail-left: 71.2px;
+  --pos-logo-name-left: 89.6px;
+  --pos-logo-name-first-top: 8.5px;
+  --pos-logo-name-second-top: 27.75px;
+  --size-button-height: 52px;
+  --size-nav-underline-width: 36px;
+  --size-nav-underline-height: 3px;
+  --size-hero-height: 828px;
+  --size-hero-bg-width: 1711px;
+  --size-hero-bg-height: 939px;
+  --size-hero-title: 933px;
+  --size-hero-subtitle: 830px;
+  --size-hero-actions: 615px;
+  --size-hero-left-gradient-width: 650px;
+  --size-hero-left-gradient-height: 838px;
+  --size-hero-left-gradient-offset: 105px;
+  --size-hero-bottom-gradient-height: 249px;
+  --size-marquee-height: 79px;
+  --size-mark-width: 30px;
+  --size-mark-height: 23.503px;
+  --size-mark-badge-width: 25.225px;
+  --size-mark-badge-height: 19.762px;
+  --pos-mark-origin-x: 97.788%;
+  --pos-mark-origin-y: 4.875%;
+  --clip-statement-seed: 98%;
+  --size-problem-height: 585.367px;
+  --size-problem-cards: 506px;
+  --size-problem-card-height: 232.842px;
+  --size-problem-copy: 614px;
+  --size-problem-old-image-width: 135.08%;
+  --size-problem-old-image-height: 217.31%;
+  --size-audience-height: 751px;
+  --size-audience-copy: 830px;
+  --size-audience-media-width: 957px;
+  --size-audience-media-height: 638px;
+  --size-audience-wordmark-width: 850.439px;
+  --size-audience-wordmark-height: 504px;
+  --size-audience-parent-height: 106px;
+  --pos-audience-media-left: 537px;
+  --pos-audience-wordmark-left: 54.12px;
+  --pos-audience-wordmark-top: 72.63px;
+  --size-audience-image-width: 109.84%;
+  --size-audience-image-height: 109.66%;
+  --size-principle-card-width: 400px;
+  --size-principle-card-height: 168px;
+  --size-principle-media-width: 292px;
+  --size-principles-height: 736px;
+  --pos-principle-media-left: 107px;
+  --size-statement-height: 225px;
+  --size-statement-content-height: 165px;
+  --size-meet-height: 715px;
+  --size-meet-media-width: 508px;
+  --size-meet-media-height: 575px;
+  --size-meet-copy: 614px;
+  --size-testimonials-height: 769px;
+  --size-testimonial-lede: 508px;
+  --size-testimonial-dial: 278px;
+  --size-testimonial-ring: 286px;
+  --size-testimonial-arrow: 50px;
+  --size-testimonial-counter: 102.872px;
+  --size-testimonial-quote-width: 34.756px;
+  --size-testimonial-quote-height: 27.229px;
+  --size-testimonial-viewport: 1051px;
+  --size-testimonial-stage-height: 569px;
+  --size-testimonial-card-width: 722px;
+  --size-testimonial-card-height: 509px;
+  --size-testimonial-copy: 321px;
+  --size-testimonial-portrait-width: 288px;
+  --size-testimonial-portrait-height: 429px;
+  --size-testimonial-mobile-viewport: 660px;
+  --size-testimonial-mobile-card: 620px;
+  --size-testimonial-mobile-portrait: 250px;
+  --size-programs-height: 631.762px;
+  --size-program-card-height: 315.562px;
+  --size-program-bg-height: 750px;
+  --size-program-left-width: 1528px;
+  --size-program-left-height: 1019px;
+  --size-program-right-width: 1244px;
+  --size-program-right-height: 855px;
+  --pos-program-left-x: -809px;
+  --pos-program-left-y: -303.37px;
+  --pos-program-right-x: -236px;
+  --pos-program-right-y: -161.37px;
+  --size-path-height: 1029px;
+  --size-path-column: 611px;
+  --size-path-step-one: 602px;
+  --size-path-step-two: 607px;
+  --size-path-media-height: 150px;
+  --size-path-line-width: 24px;
+  --size-path-line-height: 1028px;
+  --pos-path-steps-top: 111.26px;
+  --pos-path-line-offset: 11px;
+  --sp-path-step-gap: 30.8px;
+  --sp-instagram-copy: 22px;
+  --sp-instagram-grid: 11.453px;
+  --size-masterclass-height: 520px;
+  --size-masterclass-copy: 723px;
+  --size-masterclass-bg-width: 1802px;
+  --size-masterclass-bg-height: 532px;
+  --size-masterclass-blur-width: 695px;
+  --size-masterclass-blur-height: 255px;
+  --pos-masterclass-bg-left: 118px;
+  --pos-masterclass-blur-left: 340px;
+  --pos-masterclass-blur-top: 305px;
+  --size-masterclass-image-height: 148.16%;
+  --size-masterclass-blur-radius: 100px;
+  --size-faq-height: 610px;
+  --size-faq-width: 615px;
+  --size-faq-question: 500px;
+  --size-faq-answer: 451px;
+  --size-faq-icon: 30px;
+  --size-instagram-height: 902.99px;
+  --size-instagram-column: 412.307px;
+  --size-instagram-first-media: 515.384px;
+  --size-instagram-tall-media: 732.99px;
+  --size-instagram-icon-frame: 51.74px;
+  --size-instagram-icon: 43.117px;
+  --size-media-play-width: 29.489px;
+  --size-media-play-height: 26.146px;
+  --pos-media-play: 30px;
+  --size-final-height: 564px;
+  --size-final-copy: 817px;
+  --size-final-bg-width: 1405px;
+  --size-final-bg-height: 717px;
+  --pos-final-bg-left: 255px;
+  --pos-final-bg-top: -121px;
+  --size-footer-height: 191.999px;
+  --size-social-icon: 24px;
+  --size-menu-control: 44px;
+  --size-menu-line: 2px;
+
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
+  --radius-faq: 30px;
   --radius-media: 40px;
   --radius-feature: 50px;
   --radius-pill: 999px;
 
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-linear: linear;
+  --ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 140ms;
-  --duration-base: 260ms;
+  --duration-nav: 150ms;
+  --duration-hover: 200ms;
+  --duration-base: 300ms;
+  --duration-statement-start: 100ms;
+  --duration-statement-fill: 400ms;
+  --duration-statement-total: calc(var(--duration-statement-start) + var(--duration-statement-fill));
+  --duration-mark-in: 600ms;
+  --duration-mark-hold: 800ms;
+  --duration-mark-out: 300ms;
+  --duration-mark-loop: 1702ms;
+  --duration-marquee: 10000ms;
+  --shadow-testimonial: 0 4px 12px var(--color-card-shadow);
+  --shadow-program: 0 4px 15px var(--color-brand-detail);
 }
 
 /* --- Section context switches -----------------------------------------------

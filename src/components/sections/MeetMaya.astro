@@ -4,7 +4,7 @@ import Button from "../Button.astro";
 import portrait from "../../assets/maya-portrait-figma.png";
 ---
 
-<section class="band-light section" id="work-with-maya">
+<section class="band-light meet" id="work-with-maya">
   <div class="wrap grid">
     <figure class="media">
       <Image
@@ -41,39 +41,64 @@ import portrait from "../../assets/maya-portrait-figma.png";
 </section>
 
 <style>
+  .meet {
+    height: var(--size-meet-height);
+    padding-block: var(--sp-content) var(--sp-sm);
+  }
+
   .grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: var(--sp-content);
+    grid-template-columns: var(--size-meet-media-width) var(--size-meet-copy);
+    justify-content: space-between;
     align-items: center;
   }
 
-  .media { margin: 0; }
-
-  .media :global(img) {
-    width: 100%;
-    aspect-ratio: 508 / 575;
-    object-fit: cover;
-    object-position: 30% 16%;
+  .media {
+    position: relative;
+    width: var(--size-meet-media-width);
+    height: var(--size-meet-media-height);
+    margin: 0;
+    overflow: hidden;
     border-radius: var(--radius-feature);
+    transform: scaleX(-1);
   }
 
+  .media :global(img) {
+    position: absolute;
+    top: -15.72%;
+    left: -20.42%;
+    width: 122.99%;
+    height: 152.7%;
+    max-width: none;
+  }
+
+  .copy { width: var(--size-meet-copy); }
+
   .copy p {
-    margin-top: var(--sp-paragraph);
-    max-width: 52ch;
-    font-size: var(--type-body-16);
-    line-height: 1.5;
+    font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     color: var(--color-text-body);
   }
 
-  .copy p:first-of-type { margin-top: var(--sp-med); }
+  .copy p:first-of-type { margin-top: var(--sp-sm); }
+  .copy p + p { margin-top: var(--sp-paragraph); }
 
   .copy :global(.cta) { margin-top: var(--sp-med); }
 
   @media (max-width: 900px) {
+    .meet {
+      height: auto;
+      padding-block: var(--sp-footer);
+    }
+
     .grid {
       grid-template-columns: 1fr;
       gap: var(--sp-lg);
     }
+
+    .media,
+    .copy { width: 100%; }
+
+    .media { height: auto; aspect-ratio: 508 / 575; }
   }
 </style>

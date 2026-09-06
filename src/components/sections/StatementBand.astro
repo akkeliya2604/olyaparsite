@@ -2,29 +2,93 @@
 ---
 
 <section class="band-dark statement">
-  <div class="wrap">
-    <p class="line">Ready isn&rsquo;t a feeling</p>
-    <p class="line line--strong">It&rsquo;s a practice</p>
+  <div class="wrap statement-inner">
+    <button type="button" class="statement-control" data-statement aria-pressed="false">
+      <span class="line">Ready isn&rsquo;t a feeling&nbsp;</span>
+      <span class="line line--strong">It&rsquo;s a practice</span>
+    </button>
   </div>
 </section>
 
+<script>
+  const statement = document.querySelector<HTMLButtonElement>("[data-statement]");
+
+  statement?.addEventListener("click", () => {
+    const hidden = statement.dataset.hidden === "true";
+    statement.dataset.hidden = String(!hidden);
+    statement.setAttribute("aria-pressed", String(!hidden));
+  });
+</script>
+
 <style>
   .statement {
-    padding-block: var(--sp-content);
+    height: var(--size-statement-height);
+    border-bottom: var(--sp-hairline) solid var(--color-border-emphasis);
     text-align: center;
   }
 
-  .line {
-    font-weight: 700;
-    text-transform: uppercase;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    font-size: clamp(1.75rem, 0.9rem + 3.1vw, 3.25rem);
+  .statement-inner { height: var(--size-statement-content-height); }
+
+  .statement-control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-statement-gap);
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-ink-inverse);
+    font-family: inherit;
+    cursor: pointer;
   }
 
-  /* The second line is set larger in the design, not merely emphasised. */
+  .line {
+    display: block;
+    width: 100%;
+    font-size: var(--type-statement-first);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    text-transform: uppercase;
+  }
+
   .line--strong {
-    font-size: clamp(2.125rem, 0.9rem + 4.3vw, 4rem);
-    color: var(--color-accent);
+    font-size: var(--type-statement-second);
+    color: transparent;
+    background-image:
+      linear-gradient(var(--color-accent), var(--color-accent)),
+      linear-gradient(var(--color-ink-inverse), var(--color-ink-inverse));
+    background-position: left center;
+    background-size: 0% 100%, 100% 100%;
+    background-repeat: no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    transition: background-size var(--duration-statement-start) var(--ease-linear);
+  }
+
+  .statement-control:hover .line--strong,
+  .statement-control:focus-visible .line--strong {
+    animation: statement-fill var(--duration-statement-total) var(--ease-linear) forwards;
+  }
+
+  .statement-control[data-hidden="true"] .line--strong {
+    opacity: 0;
+    transition: none;
+  }
+
+  @keyframes statement-fill {
+    0% { background-size: 0% 100%, 100% 100%; }
+    20% { background-size: calc(100% - var(--clip-statement-seed)) 100%, 100% 100%; }
+    100% { background-size: 100% 100%, 100% 100%; }
+  }
+
+  @media (max-width: 900px) {
+    .statement {
+      height: auto;
+      padding-block: var(--sp-lg);
+    }
+
+    .statement-inner { height: auto; }
+    .statement-control { gap: var(--sp-xs); }
   }
 </style>

@@ -8,35 +8,60 @@ const { size = "sm" } = Astro.props;
 
 <a href="/" class:list={["logo", `logo--${size}`]} aria-label="Maya Reynolds — home">
   <img src="/logo-mark-light.svg" alt="" class="mark" aria-hidden="true" />
+  <img src="/logo-accent-light.svg" alt="" class="detail" aria-hidden="true" />
   <span class="name">
     <span>Maya</span>
-    <span class="underline">Reynolds</span>
+    <span>Reynolds</span>
   </span>
 </a>
 
 <style>
   .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-paragraph);
+    position: relative;
+    display: block;
+    flex: none;
+    width: var(--size-logo-width);
+    height: var(--size-logo-height);
     text-decoration: none;
     color: var(--color-text);
   }
 
-  .mark { width: 52px; height: auto; }
-
-  .name {
-    display: flex;
-    flex-direction: column;
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
+  .mark {
+    position: absolute;
+    top: var(--pos-logo-mark-top);
+    left: 0;
+    width: var(--size-logo-mark-width);
+    height: var(--size-logo-mark-height);
   }
 
-  .underline { border-bottom: 1px solid currentColor; }
+  .detail {
+    position: absolute;
+    top: 0;
+    left: var(--pos-logo-detail-left);
+    width: var(--size-logo-detail-width);
+    height: var(--size-logo-detail-height);
+  }
 
-  .logo--sm .name { font-size: 0.75rem; }
+  .name {
+    position: absolute;
+    inset: 0;
+    font-weight: 700;
+    line-height: 1;
+  }
 
-  .logo--md .mark { width: 75px; }
-  .logo--md .name { font-size: 0.875rem; }
+  .name span {
+    position: absolute;
+    left: var(--pos-logo-name-left);
+    white-space: nowrap;
+  }
+
+  .name span:first-child {
+    top: var(--pos-logo-name-first-top);
+    font-size: var(--size-logo-name-first);
+  }
+
+  .name span:last-child {
+    top: var(--pos-logo-name-second-top);
+    font-size: var(--size-logo-name-second);
+  }
 </style>

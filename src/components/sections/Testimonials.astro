@@ -40,7 +40,7 @@ const total = String(testimonials.length).padStart(2, "0");
   <Image src={poolBg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" />
   <div class="veil" aria-hidden="true"></div>
 
-  <div class="wrap inner">
+  <div class="inner" data-testimonials data-index="0">
     <div class="lede">
       <h2>Confidence That Holds Under Pressure</h2>
       <p>
@@ -49,79 +49,89 @@ const total = String(testimonials.length).padStart(2, "0");
       </p>
 
       <div class="dial">
+        <img src="/testimonial-ring-1.svg" alt="" class="ring ring--one" aria-hidden="true" />
+        <img src="/testimonial-ring-2.svg" alt="" class="ring ring--two" aria-hidden="true" />
+
         <button type="button" class="arrow" data-dir="-1" aria-label="Previous testimonial">
-          &#8592;
+          <img src="/testimonial-arrow-left.svg" alt="" aria-hidden="true" />
         </button>
 
-        <p class="count">
+        <p class="count" aria-live="polite">
           <span class="current">01</span>
           <span class="total">/ {total}</span>
         </p>
 
         <button type="button" class="arrow" data-dir="1" aria-label="Next testimonial">
-          &#8594;
+          <img src="/testimonial-arrow-right.svg" alt="" aria-hidden="true" />
         </button>
       </div>
     </div>
 
-    <ul class="rail" tabindex="0" aria-label="Testimonials">
-      {testimonials.map(({ quote, name, role, img, alt }) => (
-        <li class="card">
-          <div class="card-copy">
-            <span class="marks" aria-hidden="true">
-              <svg width="52" height="22" viewBox="0 0 52 22" fill="none">
-                <path d="M2 20C2 9 9 3 20 2c-8 4-11 9-11 18z" stroke="#306AFF" stroke-width="2.4" stroke-linejoin="round" />
-                <path d="M32 20C32 9 39 3 50 2c-8 4-11 9-11 18z" stroke="#306AFF" stroke-width="2.4" stroke-linejoin="round" />
-              </svg>
-            </span>
+    <div class="viewport" tabindex="0" aria-label="Testimonials">
+      <ul class="track">
+        {testimonials.map(({ quote, name, role, img, alt }) => (
+          <li class="card">
+            <div class="card-copy">
+              <div class="quote">
+                <span class="marks" aria-hidden="true">
+                  <img src="/testimonial-quote-1.svg" alt="" />
+                  <img src="/testimonial-quote-2.svg" alt="" />
+                </span>
 
-            <blockquote>{quote}</blockquote>
+                <blockquote>{quote}</blockquote>
+              </div>
 
-            <p class="name">{name}</p>
-            <p class="role">{role}</p>
-          </div>
+              <div class="author">
+                <p class="name">{name}</p>
+                <p class="role">{role}</p>
+              </div>
+            </div>
 
-          <Image src={img} alt={alt} class="portrait" widths={[220, 440]} sizes="220px" />
-        </li>
-      ))}
-    </ul>
+            <Image src={img} alt={alt} class="portrait" widths={[288, 576]} sizes="(max-width: 900px) calc(100vw - 80px), 288px" />
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
 <script>
-  const rail = document.querySelector<HTMLElement>(".rail");
-  const current = document.querySelector<HTMLElement>(".count .current");
-  const cards = rail ? Array.from(rail.querySelectorAll<HTMLElement>(".card")) : [];
-
-  // Nearest card to the rail's left edge, which stays correct mid-momentum
-  // and after a manual swipe, not just after an arrow press.
-  const indexInView = () => {
-    if (!rail) return 0;
-    let best = 0;
-    let bestGap = Infinity;
-    cards.forEach((card, i) => {
-      const gap = Math.abs(card.offsetLeft - rail.scrollLeft);
-      if (gap < bestGap) {
-        bestGap = gap;
-        best = i;
-      }
-    });
-    return best;
-  };
+  const root = document.querySelector<HTMLElement>("[data-testimonials]");
+  const viewport = root?.querySelector<HTMLElement>(".viewport");
+  const track = root?.querySelector<HTMLElement>(".track");
+  const current = root?.querySelector<HTMLElement>(".count .current");
+  const cards = track ? Array.from(track.querySelectorAll<HTMLElement>(".card")) : [];
+  let index = 0;
 
   const paint = () => {
-    if (current) current.textContent = String(indexInView() + 1).padStart(2, "0");
+    if (!root || !track || cards.length === 0) return;
+    const offset = cards[index].offsetLeft - cards[0].offsetLeft;
+    track.style.transform = `translate3d(${-offset}px, -50%, 0)`;
+    root.dataset.index = String(index);
+    if (current) current.textContent = String(index + 1).padStart(2, "0");
+    cards.forEach((card, cardIndex) => card.setAttribute("aria-hidden", String(cardIndex !== index)));
   };
 
-  document.querySelectorAll<HTMLButtonElement>(".arrow").forEach((btn) => {
+  const move = (direction: number) => {
+    if (cards.length === 0) return;
+    index = (index + direction + cards.length) % cards.length;
+    paint();
+  };
+
+  root?.querySelectorAll<HTMLButtonElement>(".arrow").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const dir = Number(btn.dataset.dir);
-      const next = Math.min(cards.length - 1, Math.max(0, indexInView() + dir));
-      rail?.scrollTo({ left: cards[next].offsetLeft, behavior: "smooth" });
+      move(Number(btn.dataset.dir));
     });
   });
 
-  rail?.addEventListener("scroll", () => window.requestAnimationFrame(paint), { passive: true });
+  viewport?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      move(event.key === "ArrowLeft" ? -1 : 1);
+    }
+  });
+
+  window.addEventListener("resize", paint, { passive: true });
   paint();
 </script>
 
@@ -129,12 +139,13 @@ const total = String(testimonials.length).padStart(2, "0");
   .testimonials {
     position: relative;
     isolation: isolate;
+    height: var(--size-testimonials-height);
     overflow: hidden;
-    padding-block: var(--sp-content);
+    padding-block: var(--sp-testimonials-top) var(--sp-content);
+    background: var(--color-surface-light);
   }
 
   .testimonials :global(.bg-media) {
-    filter: grayscale(1);
     object-position: center;
     opacity: 0.3;
   }
@@ -143,131 +154,244 @@ const total = String(testimonials.length).padStart(2, "0");
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 86%, transparent) 52%, var(--color-bg) 100%);
+    background: linear-gradient(180deg, var(--color-surface-light), transparent);
   }
 
   .inner {
+    --testimonial-left: calc((100vw - var(--content-width)) / 2 + var(--sp-testimonial-inset));
     position: relative;
     z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: var(--sp-lg);
+    display: flex;
     align-items: center;
+    width: calc(100% - var(--testimonial-left));
+    height: var(--size-testimonial-stage-height);
+    margin-left: var(--testimonial-left);
   }
 
-  .lede h2 { max-width: 19ch; }
+  .lede {
+    flex: none;
+    width: var(--size-testimonial-lede);
+  }
 
   .lede > p {
-    margin-top: var(--sp-paragraph);
-    max-width: 38ch;
-    font-size: var(--type-body-16);
-    line-height: 1.5;
-    color: var(--color-text-body);
+    margin-top: var(--sp-med);
+    font-size: var(--type-subtitle);
+    line-height: var(--lh-loose);
+    color: var(--color-ink-default);
   }
 
   .dial {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: var(--sp-sm);
-    margin-top: var(--sp-lg);
+    justify-content: center;
+    gap: var(--sp-quote);
+    width: var(--size-testimonial-dial);
+    height: var(--size-testimonial-dial);
+    margin-top: var(--sp-testimonial);
   }
 
+  .ring {
+    position: absolute;
+    top: calc(var(--sp-micro) * -1);
+    left: calc(var(--sp-xxs) * -1);
+    width: var(--size-testimonial-ring);
+    height: var(--size-testimonial-ring);
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+
+  .ring--two { opacity: 0; }
+  .inner[data-index="1"] .ring--one { opacity: 0; }
+  .inner[data-index="1"] .ring--two { opacity: 1; }
+
   .arrow {
-    width: 44px;
-    height: 44px;
+    position: relative;
+    z-index: 1;
+    width: var(--size-testimonial-arrow);
+    height: var(--size-testimonial-arrow);
+    padding: 0;
     border: 0;
-    border-radius: 50%;
     background: transparent;
-    color: var(--color-accent);
-    font-size: 1.25rem;
     cursor: pointer;
   }
 
-  .arrow:hover { background: rgba(48, 106, 255, 0.1); }
+  .arrow img { width: 100%; height: 100%; }
+  .arrow:first-of-type img { transform: scaleX(-1); }
 
-  /* Progress dial: a blue arc over a grey ring, hollowed out with a mask so
-     the section background shows through the middle. */
   .count {
-    display: grid;
-    place-items: center;
-    width: 118px;
-    height: 118px;
-    border-radius: 50%;
-    background: conic-gradient(var(--color-accent) 0 25%, #d7d7d7 25% 100%);
-    /* Hollow the centre so only a ~5px ring remains, leaving the counter
-       legible on the section background rather than on a filled disc. */
-    -webkit-mask: radial-gradient(circle, transparent 53px, #000 54px);
-    mask: radial-gradient(circle, transparent 53px, #000 54px);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-xs);
+    width: var(--size-testimonial-counter);
+    text-align: center;
+    line-height: var(--lh-tight);
   }
 
   .current {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: var(--type-counter-current);
+    font-weight: 500;
     font-style: italic;
-    color: var(--black);
+    color: var(--color-ink-default);
   }
 
   .total {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
+    font-size: var(--type-counter-total);
+    font-style: italic;
+    color: var(--color-counter-muted);
   }
 
-  .rail {
+  .viewport {
+    position: relative;
+    flex: none;
+    width: var(--size-testimonial-viewport);
+    height: var(--size-testimonial-stage-height);
+    overflow: hidden;
+  }
+
+  .track {
+    position: absolute;
+    top: 50%;
+    left: var(--sp-med);
     display: flex;
-    gap: var(--sp-sm);
-    padding-block: var(--sp-sm);
+    align-items: center;
+    gap: var(--sp-carousel);
     list-style: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    transform: translate3d(0, -50%, 0);
+    transition: transform var(--duration-base) var(--ease-out);
+    will-change: transform;
   }
-
-  .rail::-webkit-scrollbar { display: none; }
 
   .card {
-    flex: 0 0 min(100%, 470px);
-    scroll-snap-align: start;
+    flex: 0 0 var(--size-testimonial-card-width);
     display: flex;
-    gap: var(--sp-sm);
-    padding: var(--sp-med);
-    background: var(--white);
+    align-items: center;
+    gap: var(--sp-testimonial-card-inner);
+    width: var(--size-testimonial-card-width);
+    height: var(--size-testimonial-card-height);
+    padding: var(--sp-lg);
+    background: var(--color-surface-raised);
     border-radius: var(--radius-feature);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-testimonial);
+  }
+
+  .card-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sp-testimonial);
+    width: var(--size-testimonial-copy);
+    height: var(--size-testimonial-portrait-height);
+  }
+
+  .quote {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-med);
+  }
+
+  .marks {
+    display: flex;
+    gap: var(--sp-quote);
+  }
+
+  .marks img {
+    width: var(--size-testimonial-quote-width);
+    height: var(--size-testimonial-quote-height);
   }
 
   blockquote {
-    margin: var(--sp-sm) 0 0;
-    font-size: var(--type-body-16);
-    line-height: 1.5;
-    color: var(--black);
+    margin: 0;
+    font-size: var(--type-subtitle);
+    line-height: var(--lh-loose);
+    color: var(--color-ink-default);
+  }
+
+  .author {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
   }
 
   .name {
-    margin-top: var(--sp-sm);
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: var(--type-subtitle);
+    line-height: var(--lh-tight);
     text-transform: uppercase;
     color: var(--color-accent);
   }
 
   .role {
-    margin-top: 4px;
-    font-size: 0.875rem;
+    font-size: var(--type-subtitle);
+    line-height: var(--lh-loose);
     color: var(--color-text-body);
   }
 
   .card :global(.portrait) {
     flex: none;
-    width: 132px;
-    min-height: 210px;
-    height: auto;
+    width: var(--size-testimonial-portrait-width);
+    height: var(--size-testimonial-portrait-height);
     object-fit: cover;
-    border-radius: var(--radius-feature);
+    border-radius: var(--radius-media);
   }
 
   @media (max-width: 900px) {
-    .inner { grid-template-columns: 1fr; }
-    .card { flex-direction: column; }
-    .card :global(.portrait) { width: 100%; min-height: 200px; }
+    .testimonials {
+      height: auto;
+      padding-block: var(--sp-footer);
+    }
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-lg);
+      width: min(calc(100% - var(--sp-lg)), var(--content-width));
+      height: auto;
+      margin-inline: auto;
+    }
+
+    .lede { width: 100%; }
+    .dial { margin-inline: auto; }
+
+    .viewport {
+      width: 100%;
+      height: var(--size-testimonial-mobile-viewport);
+    }
+
+    .track {
+      left: 0;
+      gap: var(--sp-sm);
+      width: 100%;
+    }
+
+    .card {
+      flex-basis: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-sm);
+      width: 100%;
+      height: var(--size-testimonial-mobile-card);
+      padding: var(--sp-sm);
+    }
+
+    .card-copy {
+      order: 2;
+      width: 100%;
+      height: auto;
+      gap: var(--sp-sm);
+    }
+
+    .quote { gap: var(--sp-sm); }
+
+    blockquote { font-size: var(--type-body-18); }
+
+    .card :global(.portrait) {
+      order: 1;
+      width: 100%;
+      height: var(--size-testimonial-mobile-portrait);
+    }
   }
 </style>

@@ -5,8 +5,9 @@ import bg from "../../assets/final-cta-bg-figma.png";
 ---
 
 <section class="final band-dark">
-  <Image src={bg} alt="" class="bg-media" widths={[1200, 1920]} sizes="100vw" loading="lazy" />
-  <div class="veil" aria-hidden="true"></div>
+  <div class="background" aria-hidden="true">
+    <Image src={bg} alt="" widths={[1200, 1920]} sizes="100vw" loading="lazy" />
+  </div>
 
   <div class="wrap inner">
     <h2>
@@ -14,7 +15,7 @@ import bg from "../../assets/final-cta-bg-figma.png";
       the mental game
     </h2>
 
-    <Button href="#masterclass">Watch the Free Masterclass</Button>
+    <Button href="#masterclass" tone="accent">Watch the Free Masterclass</Button>
   </div>
 
 </section>
@@ -24,18 +25,36 @@ import bg from "../../assets/final-cta-bg-figma.png";
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: 532px;
+    height: var(--size-final-height);
     display: grid;
     place-items: center;
-    padding-block: var(--sp-content);
+    padding-block: var(--sp-final);
     text-align: center;
   }
 
-  .veil {
+  .background {
+    position: absolute;
+    top: var(--pos-final-bg-top);
+    left: var(--pos-final-bg-left);
+    width: var(--size-final-bg-width);
+    height: var(--size-final-bg-height);
+    opacity: 0.3;
+  }
+
+  .background :global(img) {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .background::after {
+    content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background: color-mix(in srgb, var(--black) 62%, transparent);
+    background:
+      linear-gradient(270deg, transparent 82.034%, var(--color-overlay-base)),
+      linear-gradient(270deg, var(--color-overlay-base), transparent 17.966%);
   }
 
   .inner {
@@ -44,12 +63,31 @@ import bg from "../../assets/final-cta-bg-figma.png";
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--sp-med);
+    gap: var(--sp-lg);
+    width: var(--size-final-copy);
   }
 
   h2 {
     text-transform: uppercase;
-    font-size: clamp(2rem, 1rem + 3.6vw, 3.5rem);
-    line-height: 1.08;
+    font-size: var(--type-h1);
+    line-height: var(--lh-snug);
+  }
+
+  @media (max-width: 900px) {
+    .final {
+      height: auto;
+      min-height: var(--size-final-height);
+      padding-block: var(--sp-footer);
+    }
+
+    .background {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .background :global(img) { object-fit: cover; }
+    .inner { width: 100%; }
   }
 </style>

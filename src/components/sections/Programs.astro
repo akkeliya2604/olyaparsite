@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../Button.astro";
-import bgLeft from "../../assets/program-bg-left-figma.png";
-import bgRight from "../../assets/program-bg-right-figma.png";
+import MotionMark from "../MotionMark.astro";
+import background from "../../assets/program-background-figma.png";
 
 const programs = [
   {
@@ -33,9 +33,9 @@ const programs = [
 ---
 
 <section class="programs band-dark">
-  <Image src={bgLeft} alt="" class="bg-media bg-media--left" widths={[1200, 1920]} sizes="100vw" />
-  <Image src={bgRight} alt="" class="bg-media bg-media--right" widths={[1200, 1920]} sizes="100vw" />
-  <div class="veil" aria-hidden="true"></div>
+  <div class="backgrounds" aria-hidden="true">
+    <Image src={background} alt="" widths={[1200, 1920]} sizes="100vw" />
+  </div>
 
   <div class="wrap inner">
     <h2>Where to <em class="accent caps">start</em></h2>
@@ -45,11 +45,11 @@ const programs = [
         <li class:list={["card", featured && "card--featured"]}>
           <p class="label">
             {featured && (
-              <span class="tick" aria-hidden="true"></span>
+              <MotionMark size="badge" />
             )}
             {label}
             {featured && (
-              <span class="tick" aria-hidden="true"></span>
+              <MotionMark size="badge" />
             )}
           </p>
 
@@ -67,40 +67,41 @@ const programs = [
   .programs {
     position: relative;
     isolation: isolate;
+    height: var(--size-programs-height);
     overflow: hidden;
     padding-block: var(--sp-content);
   }
 
-  .veil {
+  .backgrounds {
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--black) 82%, transparent) 0%, var(--color-overlay-strong) 100%);
+    height: var(--size-program-bg-height);
+    overflow: hidden;
   }
 
-  .programs :global(.bg-media--left) {
-    width: 56%;
-    right: auto;
-    opacity: 0.6;
-    object-position: right center;
+  .backgrounds :global(img) {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
   }
 
-  .programs :global(.bg-media--right) {
-    width: 64%;
-    left: auto;
-    opacity: 0.35;
-    object-position: left center;
+  .inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-med);
   }
 
-  .inner { position: relative; z-index: 2; }
-
-  h2 { text-align: center; }
+  h2 { text-align: center; color: var(--color-heading-muted); }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--sp-sm);
-    margin-top: var(--sp-lg);
+    gap: var(--sp-med);
+    width: 100%;
     list-style: none;
   }
 
@@ -108,57 +109,61 @@ const programs = [
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    width: var(--size-principle-card-width);
+    height: var(--size-program-card-height);
     text-align: center;
-    padding: var(--sp-med) var(--sp-sm);
-    background: color-mix(in srgb, var(--black) 55%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+    padding: var(--sp-sm);
     border-radius: var(--radius-feature);
   }
 
-  /* The middle card is the primary offer, marked in the design by a blue
-     border and an outer glow rather than a different fill. */
   .card--featured {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 1px var(--color-accent), 0 0 34px color-mix(in srgb, var(--color-accent) 45%, transparent);
+    background: var(--color-surface-dark);
+    border: var(--sp-thick) solid var(--color-accent);
+    box-shadow: var(--shadow-program);
   }
 
   .label {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 5px 14px;
-    border: 1px solid var(--color-border);
+    justify-content: center;
+    gap: var(--sp-xs);
+    padding: var(--sp-xxs) var(--sp-xs);
+    border: var(--sp-hairline) solid var(--color-accent);
     border-radius: var(--radius-pill);
-    font-size: 0.75rem;
-    color: var(--color-text-body);
-  }
-
-  .card--featured .label { border-color: var(--color-accent); }
-
-  .tick {
-    width: 8px;
-    height: 8px;
-    background: var(--color-accent);
-    clip-path: polygon(0 60%, 38% 100%, 100% 12%, 82% 0, 36% 66%, 14% 46%);
+    font-size: var(--type-body-16);
+    line-height: var(--lh-snug);
+    color: var(--color-ink-inverse);
   }
 
   .card h3 {
-    margin-top: var(--sp-sm);
+    margin-top: var(--sp-paragraph);
+    font-size: var(--type-h4);
     text-transform: uppercase;
   }
 
   .body {
     margin-top: var(--sp-paragraph);
-    font-size: 0.8125rem;
-    line-height: 1.5;
+    font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     color: var(--color-text-body);
   }
 
-  /* auto pushes every button to the card's bottom edge, so the three CTAs
-     share a baseline regardless of how long the copy above them runs. */
-  .card :global(.cta) { margin-top: auto; padding-top: var(--sp-med); }
+  .card :global(.cta) { margin-top: auto; }
 
   @media (max-width: 900px) {
+    .programs {
+      height: auto;
+      padding-block: var(--sp-footer);
+    }
+
     .grid { grid-template-columns: 1fr; }
+    .card {
+      width: 100%;
+      height: auto;
+      min-height: var(--size-program-card-height);
+    }
+
+    .backgrounds { height: 100%; }
   }
 </style>

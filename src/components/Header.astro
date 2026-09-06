@@ -18,12 +18,17 @@ const links = [
     <nav id="site-nav" aria-label="Main">
       <ul>
         {links.map(({ href, label }) => (
-          <li><a href={href}>{label}</a></li>
+          <li>
+            <a href={href}>
+              <span>{label}</span>
+              <img src="/nav-hover-underline.svg" alt="" aria-hidden="true" />
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
 
-    <Button href="#masterclass" size="sm" class="cta">Free Masterclass</Button>
+    <Button href="#masterclass" size="sm" tone="accent" class="cta">Free Masterclass</Button>
 
     <button
       type="button"
@@ -62,64 +67,89 @@ const links = [
 <style>
   .site-header {
     position: absolute;
-    inset: 0 0 auto;
+    inset: calc(var(--sp-footer) + var(--sp-sm)) 0 auto;
     z-index: 20;
-    padding-block: var(--sp-med);
-    color: var(--white);
+    color: var(--color-ink-inverse);
   }
 
   .bar {
     display: flex;
     align-items: center;
-    gap: var(--sp-lg);
+    gap: var(--sp-nav);
   }
 
   nav { margin-inline: auto; }
 
   nav ul {
     display: flex;
-    gap: var(--sp-med);
+    gap: var(--sp-nav);
     list-style: none;
   }
 
   nav a {
-    font-size: 0.875rem;
+    position: relative;
+    display: block;
+    font-size: var(--type-body-16);
+    line-height: var(--lh-snug);
     text-decoration: none;
-    opacity: 0.85;
-    transition: opacity var(--duration-fast) var(--ease-out);
   }
-  nav a:hover { opacity: 1; }
+
+  nav a img {
+    position: absolute;
+    top: calc(100% + var(--sp-micro));
+    left: 0;
+    width: var(--size-nav-underline-width);
+    height: var(--size-nav-underline-height);
+    max-width: none;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+      opacity var(--duration-nav) var(--ease-linear),
+      transform var(--duration-nav) var(--ease-linear);
+  }
+
+  nav a:hover img,
+  nav a:focus-visible img {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 
   .toggle {
     display: none;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
-    width: 44px;
-    height: 44px;
+    gap: var(--sp-menu-lines);
+    width: var(--size-menu-control);
+    height: var(--size-menu-control);
     padding: 0;
     background: none;
     border: 0;
+    color: inherit;
     cursor: pointer;
   }
 
   .toggle span {
     display: block;
-    height: 2px;
+    height: var(--size-menu-line);
     background: currentColor;
     transition: transform var(--duration-fast) var(--ease-out);
   }
 
   @media (max-width: 900px) {
+    .site-header { inset-block-start: var(--sp-sm); }
     .bar { flex-wrap: wrap; }
     .toggle { display: flex; margin-left: auto; }
-    .cta { display: none; }
+    .site-header :global(.cta) { display: none; }
 
     nav {
       order: 3;
       flex-basis: 100%;
       margin-inline: 0;
       display: none;
+      padding: var(--sp-sm);
+      background: var(--color-surface-dark);
+      border-radius: var(--radius-md);
     }
 
     :global(.site-header.is-open) nav { display: block; }

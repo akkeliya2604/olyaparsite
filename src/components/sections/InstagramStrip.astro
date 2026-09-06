@@ -6,7 +6,7 @@ import postTwo from "../../assets/instagram-post-02.jpg";
 import storyOne from "../../assets/instagram-story-01.jpg";
 ---
 
-<section class="band-light section">
+<section class="band-light instagram">
   <div class="wrap layout">
     <div class="first-column">
       <div class="intro">
@@ -22,7 +22,7 @@ import storyOne from "../../assets/instagram-story-01.jpg";
             <img src="/instagram-icon.svg" alt="" />
           </a>
 
-          <Button href="#contact" size="sm">Follow on Instagram</Button>
+          <Button href="#contact" size="sm" tone="accent">Follow on Instagram</Button>
         </div>
       </div>
 
@@ -33,32 +33,46 @@ import storyOne from "../../assets/instagram-story-01.jpg";
 
     <figure class="tile tile--tall">
       <Image src={postTwo} alt="" widths={[412, 824]} sizes="(max-width: 900px) 100vw, 412px" />
+      <img src="/media-play.svg" alt="" class="play" aria-hidden="true" />
     </figure>
 
     <figure class="tile tile--tall">
       <Image src={storyOne} alt="" widths={[412, 824]} sizes="(max-width: 900px) 100vw, 412px" />
+      <img src="/media-play.svg" alt="" class="play" aria-hidden="true" />
     </figure>
   </div>
 </section>
 
 <style>
+  .instagram {
+    height: var(--size-instagram-height);
+    padding-block: var(--sp-audience-block) var(--sp-content);
+  }
+
   .layout {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, var(--size-instagram-column));
     align-items: end;
-    gap: var(--sp-paragraph);
+    gap: var(--sp-instagram-grid);
   }
 
   .first-column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 733px;
+    height: var(--size-instagram-tall-media);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-instagram-copy);
   }
 
   .lede {
-    margin-top: var(--sp-sm);
     font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     color: var(--color-text);
   }
 
@@ -66,27 +80,40 @@ import storyOne from "../../assets/instagram-story-01.jpg";
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: var(--sp-paragraph);
-    margin-top: var(--sp-sm);
+    gap: var(--sp-xs);
   }
 
   .glyph {
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
+    width: var(--size-instagram-icon-frame);
+    height: var(--size-instagram-icon-frame);
   }
 
-  .glyph img { width: 100%; height: 100%; }
+  .glyph img {
+    width: var(--size-instagram-icon);
+    height: var(--size-instagram-icon);
+  }
 
-  .tile { margin: 0; overflow: hidden; }
+  .tile { position: relative; margin: 0; overflow: hidden; }
   .tile :global(img) { width: 100%; height: 100%; object-fit: cover; }
-  .tile--first { height: 515px; }
-  .tile--tall { height: 733px; }
+  .tile--first { height: var(--size-instagram-first-media); }
+  .tile--tall { height: var(--size-instagram-tall-media); }
+
+  .tile :global(.play) {
+    position: absolute;
+    top: var(--pos-media-play);
+    right: var(--pos-media-play);
+    width: var(--size-media-play-width);
+    height: var(--size-media-play-height);
+    object-fit: fill;
+    transform: rotate(90deg);
+  }
 
   @media (max-width: 900px) {
+    .instagram { height: auto; padding-block: var(--sp-footer); }
     .layout { grid-template-columns: 1fr; }
-    .first-column { min-height: 0; gap: var(--sp-lg); }
+    .first-column { height: auto; min-height: 0; gap: var(--sp-lg); }
     .tile--first,
     .tile--tall { height: auto; aspect-ratio: 4 / 5; }
   }

@@ -4,13 +4,20 @@ interface Props {
   variant?: "solid" | "outline";
   /** Renders the smaller pill used in the nav and inside cards. */
   size?: "md" | "sm";
+  tone?: "action" | "accent";
   class?: string;
 }
 
-const { href, variant = "solid", size = "md", class: extra = "" } = Astro.props;
+const {
+  href,
+  variant = "solid",
+  size = "md",
+  tone = "action",
+  class: extra = "",
+} = Astro.props;
 ---
 
-<a href={href} class:list={["btn", `btn--${variant}`, `btn--${size}`, extra]}>
+<a href={href} class:list={["btn", `btn--${variant}`, `btn--${size}`, `btn--${tone}`, extra]}>
   <slot />
 </a>
 
@@ -19,34 +26,53 @@ const { href, variant = "solid", size = "md", class: extra = "" } = Astro.props;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--sp-sm);
+    height: var(--size-button-height);
+    padding-inline: var(--sp-med);
     border-radius: var(--radius-pill);
+    font-size: var(--type-body-18);
+    line-height: var(--lh-snug);
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out);
+      background-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
   }
-
-  .btn--md { padding: var(--sp-paragraph) var(--sp-med); font-size: var(--type-body-16); }
-  .btn--sm { padding: 10px var(--sp-sm); font-size: 0.875rem; }
 
   .btn--solid {
     background: var(--color-action);
-    color: var(--white);
-    border: 1px solid var(--color-action);
+    color: var(--color-ink-inverse);
+    border: var(--sp-hairline) solid var(--color-action);
   }
+
+  .btn--accent {
+    --button-fill: var(--color-accent);
+  }
+
+  .btn--solid.btn--accent {
+    background: var(--button-fill);
+    border-color: var(--button-fill);
+  }
+
   .btn--solid:hover { background: var(--color-action-hover); border-color: var(--color-action-hover); }
 
   .btn--outline {
-    background: transparent;
-    color: var(--color-text);
-    border: 1px solid currentColor;
+    background: var(--color-button-glass);
+    color: var(--color-ink-inverse);
+    border: var(--sp-micro) solid var(--color-action);
   }
+
   .btn--outline:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
+    background: var(--color-action-hover);
+    border-color: var(--color-action-hover);
+    color: var(--color-ink-inverse);
+  }
+
+  :global(.band-light) .btn--outline,
+  :global(.band-white) .btn--outline {
+    background: transparent;
+    color: var(--color-text-strong);
+    border-width: var(--sp-hairline);
   }
 </style>
