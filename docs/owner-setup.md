@@ -33,7 +33,8 @@ This makes Cloudflare rebuild the live site every time a change is pushed.
 **Do this after Task 1, once the code is actually in the repository** — the
 setup screen needs to see the real files.
 
-1. Sign in at <https://dash.cloudflare.com> with **olga.par.work@gmail.com**
+1. Sign in at <https://dash.cloudflare.com> with your Cloudflare account
+   (the one the site already lives under)
 2. In the left sidebar choose **Workers & Pages**
 3. Click **race-ready-site** (it already exists — the site is live)
 4. Go to the **Settings** tab, then **Builds** in the side menu

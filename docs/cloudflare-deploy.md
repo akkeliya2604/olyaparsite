@@ -42,7 +42,7 @@ every other tool are unaffected. It is a virtualenv, but for Cloudflare.
 Already done — do not repeat these:
 
 - The Worker **`race-ready-site` exists and is deployed** in Olya's Cloudflare
-  account (`olga.par.work@gmail.com`).
+  account (the Gmail address the site's Cloudflare account is registered to).
 - `.cf-home/` on the original build machine is logged in to that same account.
   `npm run cf:whoami` confirms which account you are acting as.
 - The GitHub remote is set to <https://github.com/akkeliya2604/olyaparsite>.
@@ -95,7 +95,7 @@ npm run cf:login
 npm run cf:whoami
 ```
 
-Confirm it prints `olga.par.work@gmail.com` before deploying. On a machine with
+Confirm it prints the site owner's Cloudflare address before deploying. On a machine with
 only one Cloudflare account this is still safe — the credential simply lives in
 `.cf-home/` instead of the machine-wide location.
 

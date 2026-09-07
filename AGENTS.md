@@ -66,6 +66,9 @@ docs/content-map.md        Which file holds which words. Update when sections mo
 docs/figma-to-web.md       How the design became code; font substitution rationale
 docs/cloudflare-deploy.md  Deployment, and the two-Cloudflare-account trap
 docs/codex-prompt.md       Reusable task prompt
+docs/session-transcript.md The build session end to end: decisions, rationale,
+                           and the traps that cost time. Read Parts 1-2 if you
+                           are new to this repo.
 
 src/pages/index.astro      Assembles the 14 sections in page order
 src/components/sections/   One file per band of the page
