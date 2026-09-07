@@ -94,6 +94,16 @@ performance coach). Treated as fictional; deployed under the neutral Worker name
   download cap).
 - Instagram strip tiles are empty in the design.
 
+> **Status after this session.** Commits `232de13` and `0e08471` (a later
+> "align home with Figma" pass by the repository owner) closed several of these:
+> the **logo** now uses the real `public/logo-mark-light.svg`, **Maya's portrait**
+> is the proper `maya-portrait-figma.png` export, and the **Instagram tiles**
+> have real images. Still open as of `0e08471`: the **"Soccer Players"** copy,
+> the **FAQ answers**, and **testimonials 3-4** (only two exist). Three
+> `TODO(figma)` markers remain in `src/`. Treat the list above as the state
+> *during* this session, and `grep -rn "TODO(figma)" src` as the current truth.
+
+
 ## Part 3 — Chronological record
 
 ---
